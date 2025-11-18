@@ -1,0 +1,86 @@
+name: API Quality and Consistency Check
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight UTC
+  workflow_dispatch: # Manual trigger
+    inputs:
+      limit:
+        description: 'Limit the number of APIs to check'
+        required: false
+        type: number
+      dry-run:
+        description: 'Run without actually checking APIs'
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  api-quality-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        working-directory: ./scripts
+        run: pip install -r requirements.txt
+
+      - name: Cache API responses
+        uses: actions/cache@v4
+        with:
+          path: ./.cache/api_responses.json
+          key: ${{ runner.os }}-api-responses-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-api-responses-
+
+      - name: Run API quality check
+        working-directory: ./scripts
+        run: |
+          args="--parallel 20 --timeout 15"
+          if [ "${{ inputs.dry-run || false }}" = "true" ]; then
+            args="$args --dry-run"
+          fi
+          if [ -n "${{ inputs.limit }}" ]; then
+            args="$args --limit ${{ inputs.limit }}"
+          fi
+          python validate_and_report.py $args
+
+      - name: Validate JSON files
+        working-directory: ./scripts
+        run: |
+          python -c "import json; json.load(open('../data/apis.json'))"
+          python -c "import json; json.load(open('../data/report.json'))"
+          python -c "import json; json.load(open('../data/anomalies.json'))"
+
+      - name: Check for README changes
+        run: |
+          if git status | grep -q "README.md"; then
+            git diff README.md > readme_changes.diff
+          fi
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: api-quality-results
+          path: |
+            ./data/apis.json
+            ./data/report.json
+            ./data/anomalies.json
+            ./readme_changes.diff
+        if: always()
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add ./data/* ./README.md || true
+          git commit -m "Update API quality reports and mark unstable APIs" || true
+          git push origin ${{ github.head_ref }} || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main'

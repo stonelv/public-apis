@@ -1,0 +1,72 @@
+[
+  {
+    "name": "Axolotl",
+    "description": "Collection of axolotl pictures and facts",
+    "auth": "no",
+    "https": true,
+    "cors": false,
+    "category": "Animals",
+    "url": "https://theaxolotlapi.netlify.app/",
+    "slug": "axolotl-theaxolotlapi.netlify.app",
+    "domain": "theaxolotlapi.netlify.app",
+    "status": "ok",
+    "last_checked": "2025-11-18T13:35:33.640427",
+    "reliability_score": 1.0
+  },
+  {
+    "name": "AdoptAPet",
+    "description": "Resource to help get pets adopted",
+    "auth": "api_key",
+    "https": true,
+    "cors": true,
+    "category": "Animals",
+    "url": "https://www.adoptapet.com/public/apis/pet_list.html",
+    "slug": "adoptapet-adoptapet.com",
+    "domain": "adoptapet.com",
+    "status": "ok",
+    "last_checked": "2025-11-18T13:35:33.640142",
+    "reliability_score": 1.0
+  },
+  {
+    "name": "Cat Facts",
+    "description": "Daily cat facts",
+    "auth": "no",
+    "https": true,
+    "cors": false,
+    "category": "Animals",
+    "url": "https://alexwohlbruck.github.io/cat-facts/",
+    "slug": "cat-facts-alexwohlbruck.github.io",
+    "domain": "alexwohlbruck.github.io",
+    "status": "ok",
+    "last_checked": "2025-11-18T13:35:33.640448",
+    "reliability_score": 1.0
+  },
+  {
+    "name": "Cataas",
+    "description": "Cat as a service (cats pictures and gifs)",
+    "auth": "no",
+    "https": true,
+    "cors": false,
+    "category": "Animals",
+    "url": "https://cataas.com/",
+    "slug": "cataas-cataas.com",
+    "domain": "cataas.com",
+    "status": "ok",
+    "last_checked": "2025-11-18T13:35:33.640674",
+    "reliability_score": 1.0
+  },
+  {
+    "name": "Cats",
+    "description": "Pictures of cats from Tumblr",
+    "auth": "api_key",
+    "https": true,
+    "cors": false,
+    "category": "Animals",
+    "url": "https://docs.thecatapi.com/",
+    "slug": "cats-docs.thecatapi.com",
+    "domain": "docs.thecatapi.com",
+    "status": "ok",
+    "last_checked": "2025-11-18T13:35:33.640737",
+    "reliability_score": 1.0
+  }
+]
