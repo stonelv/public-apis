@@ -1889,3 +1889,51 @@ API | Description | Auth | HTTPS | CORS |
 
 ## License
 [MIT](LICENSE) (c) 2022 public-apis
+
+## Data Extraction Tool
+
+A Python script is available to extract APIs from this README and generate structured JSON data:
+
+### Features
+- **Extract APIs**: Parses all API tables from README.md
+- **Normalization**: Standardizes authentication types, HTTPS status, and CORS status
+- **Quality Checks**: Detects short descriptions, illegal URLs, domain clusters, and more
+- **Filtering**: Supports limiting number of APIs and filtering by category
+- **Reporting**: Generates comprehensive problems summary
+
+### Usage
+```bash
+# Extract all APIs to data/apis.json
+python scripts/extract_apis.py
+
+# Extract with limit and generate report
+python scripts/extract_apis.py --limit 100 --report
+
+# Filter by category
+python scripts/extract_apis.py --category Animals
+
+# Strict mode (exit with error if problems found)
+python scripts/extract_apis.py --strict
+```
+
+### Output Format
+The script generates `data/apis.json` with the following fields:
+- `name`: API name
+- `description`: API description
+- `auth_original`: Original authentication string from README
+- `auth_normalized`: Normalized authentication type
+- `https`: Boolean indicating HTTPS support
+- `cors`: Boolean/None indicating CORS support
+- `category`: API category
+- `url`: API endpoint URL
+- `domain`: Extracted domain from URL
+- `slug`: Generated slug for API
+- `line_no`: Line number in README
+- `problems`: List of detected quality issues
+
+### Problems Detected
+- `short_description`: Description less than 8 characters
+- `illegal_url`: Malformed URL
+- `domain_cluster`: Same domain appearing more than 3 times in the same category
+- `cross_category_domain`: Same domain appearing in multiple categories
+- `unknown_auth`: Unrecognized authentication type

@@ -1,0 +1,114 @@
+{
+  "problems": {
+    "cross_category_domain": {
+      "count": 176,
+      "examples": [
+        {
+          "name": "eBird",
+          "category": "Animals",
+          "url": "https://documenter.getpostman.com/view/664302/S1ENwy59",
+          "line_no": 110
+        },
+        {
+          "name": "MeowFacts",
+          "category": "Animals",
+          "url": "https://github.com/wh-iterabb-it/meowfacts",
+          "line_no": 115
+        },
+        {
+          "name": "Movebank",
+          "category": "Animals",
+          "url": "https://github.com/movebank/movebank-api-doc",
+          "line_no": 116
+        },
+        {
+          "name": "AniList",
+          "category": "Anime",
+          "url": "https://github.com/AniList/ApiV2-GraphQL-Docs",
+          "line_no": 139
+        },
+        {
+          "name": "AnimeChan",
+          "category": "Anime",
+          "url": "https://github.com/RocktimSaikia/anime-chan",
+          "line_no": 140
+        }
+      ]
+    },
+    "domain_cluster": {
+      "count": 66,
+      "examples": [
+        {
+          "name": "Crossref Metadata Search",
+          "category": "Books",
+          "url": "https://github.com/CrossRef/rest-api-doc",
+          "line_no": 251
+        },
+        {
+          "name": "GurbaniNow",
+          "category": "Books",
+          "url": "https://github.com/GurbaniNow/api",
+          "line_no": 254
+        },
+        {
+          "name": "PoetryDB",
+          "category": "Books",
+          "url": "https://github.com/thundercomb/poetrydb#readme",
+          "line_no": 258
+        },
+        {
+          "name": "Quran-api",
+          "category": "Books",
+          "url": "https://github.com/fawazahmed0/quran-api#readme",
+          "line_no": 261
+        },
+        {
+          "name": "Tenders in Hungary",
+          "category": "Business",
+          "url": "https://tenders.guru/hu/api",
+          "line_no": 291
+        }
+      ]
+    },
+    "short_description": {
+      "count": 31,
+      "examples": [
+        {
+          "name": "Art Institute of Chicago",
+          "category": "Art & Design",
+          "url": "https://api.artic.edu/docs/",
+          "line_no": 187
+        },
+        {
+          "name": "Harvard Art Museums",
+          "category": "Art & Design",
+          "url": "https://github.com/harvardartmuseums/api-docs",
+          "line_no": 194
+        },
+        {
+          "name": "Iconfinder",
+          "category": "Art & Design",
+          "url": "https://developer.iconfinder.com",
+          "line_no": 196
+        },
+        {
+          "name": "Noun Project",
+          "category": "Art & Design",
+          "url": "http://api.thenounproject.com/index.html",
+          "line_no": 200
+        },
+        {
+          "name": "British National Bibliography",
+          "category": "Books",
+          "url": "http://bnb.data.bl.uk/",
+          "line_no": 250
+        }
+      ]
+    }
+  },
+  "stats": {
+    "total_apis": 1425,
+    "apis_with_problems": 210,
+    "total_problems": 273
+  }
+}
