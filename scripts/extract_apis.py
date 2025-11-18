@@ -111,6 +111,7 @@ def extract_domain(url: str) -> str:
 def normalize_auth(auth_str: str) -> Tuple[str, str]:
     """Normalize authentication type"""
     auth = auth_str.strip()
+    original_auth = auth
     
     # Handle multiple auth types
     if ' or ' in auth:
@@ -119,12 +120,15 @@ def normalize_auth(auth_str: str) -> Tuple[str, str]:
     # Remove backticks
     auth = auth.replace('`', '')
     
-    # Normalize
-    normalized = AUTH_MAPPING.get(auth, 'custom' if auth else 'unknown')
-    if normalized == 'custom' and auth not in ['custom']:
-        normalized = 'unknown'  # Set to unknown if not explicitly 'custom'
+    # Normalize according to rules
+    if auth in AUTH_MAPPING:
+        normalized = AUTH_MAPPING[auth]
+    elif not auth:
+        normalized = 'unknown_auth'
+    else:
+        normalized = 'custom'
     
-    return auth, normalized
+    return original_auth, normalized
 
 def validate_api(api: APIEntry) -> APIEntry:
     """Validate API entry and add problems"""
@@ -143,13 +147,14 @@ def validate_api(api: APIEntry) -> APIEntry:
         problems.append('illegal_url')
     
     # Check unknown auth
-    if api.auth_normalized == 'unknown':
+    if api.auth_normalized == 'unknown_auth':
         problems.append('unknown_auth')
     
-    api.problems = problems
+    # Remove duplicates and update
+    api.problems = list(dict.fromkeys(problems))
     return api
 
-def parse_readme(readme_path: str, limit: int = None, category_filter: str = None) -> List[APIEntry]:
+def parse_readme(readme_path: str, limit_categories: int = None, category_filter: str = None) -> Tuple[List[APIEntry], bool]:
     """Parse README.md and extract API entries"""
     with open(readme_path, 'r', encoding='utf-8') as f:
         content = f.read()
@@ -157,6 +162,8 @@ def parse_readme(readme_path: str, limit: int = None, category_filter: str = Non
     lines = content.split('\n')
     current_category = None
     apis = []
+    categories_processed = set()
+    format_anomalies_found = False
     
     for line_num, line in enumerate(lines):
         line = line.strip()
@@ -165,12 +172,17 @@ def parse_readme(readme_path: str, limit: int = None, category_filter: str = Non
         category_match = CATEGORY_PATTERN.match(line)
         if category_match:
             current_category = category_match.group(1).strip()
+            categories_processed.add(current_category)
+            
+            # Apply category limit
+            if limit_categories and len(categories_processed) > limit_categories:
+                break
             continue
         
         # Check if this is a table row
-        if current_category and line.startswith('|') and '](' in line:
+        if current_category and line.startswith('|'):
             # Skip header separator lines
-            if line.startswith('|:-'):
+            if line.startswith('|:-') or line.startswith('|:---'):
                 continue
             
             # Match API row pattern
@@ -181,7 +193,7 @@ def parse_readme(readme_path: str, limit: int = None, category_filter: str = Non
                 description = match.group(3).strip()
                 auth_str = match.group(4).strip()
                 https_str = match.group(5).strip()
-                cors_str = match.group(6).strip() if match.group(6) else 'Unknown'
+                cors_str = match.group(6).strip() if len(match.groups()) > 6 else 'Unknown' if len(match.groups()) > 5 else None
                 
                 # Apply category filter
                 if category_filter and current_category.lower() != category_filter.lower():
@@ -196,7 +208,7 @@ def parse_readme(readme_path: str, limit: int = None, category_filter: str = Non
                 # Normalize values
                 auth_original, auth_normalized = normalize_auth(auth_str)
                 https = HTTPS_MAPPING.get(https_str, False)
-                cors = CORS_MAPPING.get(cors_str, None)
+                cors = CORS_MAPPING.get(cors_str, None) if cors_str else None
                 
                 # Create API entry
                 api_entry = APIEntry(
@@ -218,12 +230,60 @@ def parse_readme(readme_path: str, limit: int = None, category_filter: str = Non
                 api_entry = validate_api(api_entry)
                 
                 apis.append(api_entry)
-                
-                # Apply limit
-                if limit and len(apis) >= limit:
-                    return apis
+            else:
+                # Check if this line looks like an API row but didn't match regex
+                if '](' in line and len(line.split('|')) >= 4:  # At least 4 columns (name, desc, auth, https)
+                    format_anomalies_found = True
+                    
+                    # Try to extract as much as possible
+                    columns = [col.strip() for col in line.split('|') if col.strip()]
+                    if len(columns) >= 2:
+                        name_url = columns[0]
+                        if '](' in name_url:
+                            name = name_url.split('](')[0][1:]
+                            url = name_url.split('](')[1][:-1]
+                        else:
+                            name = name_url
+                            url = ""
+                        
+                        description = columns[1] if len(columns) > 1 else ""
+                        auth_str = columns[2] if len(columns) > 2 else ""
+                        https_str = columns[3] if len(columns) > 3 else ""
+                        cors_str = columns[4] if len(columns) > 4 else None
+                        
+                        # Extract domain
+                        domain = extract_domain(url)
+                        
+                        # Generate slug
+                        slug = generate_slug(name, domain)
+                        
+                        # Normalize values
+                        auth_original, auth_normalized = normalize_auth(auth_str)
+                        https = HTTPS_MAPPING.get(https_str, False)
+                        cors = CORS_MAPPING.get(cors_str, None) if cors_str else None
+                        
+                        # Create API entry
+                        api_entry = APIEntry(
+                            name=name,
+                            description=description,
+                            auth_original=auth_str,
+                            auth_normalized=auth_normalized,
+                            https=https,
+                            cors=cors,
+                            category=current_category,
+                            url=url,
+                            domain=domain,
+                            slug=slug,
+                            line_no=line_num + 1,  # Convert to 1-based
+                            problems=['format_anomaly']
+                        )
+                        
+                        # Validate API entry
+                        api_entry = validate_api(api_entry)
+                        
+                        apis.append(api_entry)
     
-    return apis
+    return apis, format_anomalies_found
 
 def detect_advanced_problems(apis: List[APIEntry]) -> None:
     """Detect advanced problems like domain clusters and cross-category domains"""
@@ -244,78 +304,134 @@ def detect_advanced_problems(apis: List[APIEntry]) -> None:
         for domain, count in domain_counts.items():
             if count > 3:
                 for api in domain_api_map[domain]:
-                    if api.category == category:
+                    if api.category == category and 'domain_cluster' not in api.problems:
                         api.problems.append('domain_cluster')
     
     # Detect cross-category domains (same domain in multiple categories)
     for domain, categories in domain_category_map.items():
         if len(categories) > 1:
             for api in domain_api_map[domain]:
-                api.problems.append('cross_category_domain')
+                if 'cross_category_domain' not in api.problems:
+                    api.problems.append('cross_category_domain')
 
 def generate_problems_summary(apis: List[APIEntry]) -> Dict:
-    """Generate problems summary"""
-    problem_counts = defaultdict(int)
-    problem_examples = defaultdict(list)
-    
-    # Count problems and collect examples
-    for api in apis:
-        for problem in api.problems:
-            problem_counts[problem] += 1
-            
-            # Collect up to 5 examples
-            if len(problem_examples[problem]) < 5:
-                example = {
-                    'name': api.name,
-                    'category': api.category,
-                    'url': api.url,
-                    'line_no': api.line_no
-                }
-                problem_examples[problem].append(example)
-    
-    # Generate summary
+    """Generate summary of problems"""
     summary = {
-        'problems': {},
-        'stats': {
-            'total_apis': len(apis),
-            'apis_with_problems': sum(1 for api in apis if api.problems),
-            'total_problems': sum(problem_counts.values())
+        "problems": {
+            "short_description": [],
+            "illegal_url": [],
+            "unknown_auth": [],
+            "domain_cluster": [],
+            "cross_category_domain": [],
+            "format_anomaly": []
+        },
+        "stats": {
+            "total_apis": len(apis),
+            "apis_with_problems": 0,
+            "total_problems": 0,
+            "unique_domains": 0,
+            "unknown_auth_count": 0,
+            "cross_category_domain_count": 0
         }
     }
     
-    for problem, count in sorted(problem_counts.items()):
-        summary['problems'][problem] = {
-            'count': count,
-            'examples': problem_examples[problem]
-        }
+    apis_with_problems_count = 0
+    total_problems_count = 0
+    unique_domains = set()
+    unknown_auth_count = 0
+    cross_category_domain_count = 0
+    cross_category_domains = set()
+    
+    for api in apis:
+        # Collect unique domains
+        if api.domain:
+            unique_domains.add(api.domain)
+        
+        # Count unknown_auth
+        if api.auth_normalized == 'unknown_auth':
+            unknown_auth_count += 1
+        
+        if api.problems:
+            # Remove duplicate problems
+            api.problems = list(dict.fromkeys(api.problems))
+            
+            apis_with_problems_count += 1
+            total_problems_count += len(api.problems)
+            
+            for problem in api.problems:
+                if problem in summary["problems"]:
+                    summary["problems"][problem].append(api.slug)
+                    
+                # Track cross category domains
+                if problem == 'cross_category_domain':
+                    if api.domain and api.domain not in cross_category_domains:
+                        cross_category_domains.add(api.domain)
+                        cross_category_domain_count += 1
+    
+    # Update stats
+    summary["stats"]["apis_with_problems"] = apis_with_problems_count
+    summary["stats"]["total_problems"] = total_problems_count
+    summary["stats"]["unique_domains"] = len(unique_domains)
+    summary["stats"]["unknown_auth_count"] = unknown_auth_count
+    summary["stats"]["cross_category_domain_count"] = cross_category_domain_count
+    
+    # Limit examples to 5 for each problem type
+    for problem_type, slugs in summary["problems"].items():
+        summary["problems"][problem_type] = slugs[:5]
     
     return summary
 
 def main():
     parser = argparse.ArgumentParser(description='API Extraction Tool')
-    parser.add_argument('--limit', type=int, help='Limit the number of APIs to extract')
+    parser.add_argument('--limit', type=int, help='Limit the number of categories to extract')
     parser.add_argument('--category', type=str, help='Filter by category')
     parser.add_argument('--report', action='store_true', help='Generate problems summary')
-    parser.add_argument('--strict', action='store_true', help='Exit with error if problems found')
+    parser.add_argument('--strict', action='store_true', help='Exit with error on format anomalies (not quality problems)')
+    parser.add_argument('readme_path', nargs='?', help='Path to README.md file', default=os.path.join(os.path.dirname(os.path.dirname(__file__)), 'README.md'))
     args = parser.parse_args()
     
     # Parse README
-    readme_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'README.md')
-    apis = parse_readme(readme_path, args.limit, args.category)
+    readme_path = args.readme_path
+    apis, format_anomalies_found = parse_readme(readme_path, args.limit, args.category)
     
     # Detect advanced problems
     detect_advanced_problems(apis)
     
     # Convert to dict and sort
     api_dicts = [asdict(api) for api in apis]
-    api_dicts.sort(key=lambda x: (x['category'].lower(), x['name'].lower()))
     
-    # Export to data/apis.json
-    output_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data', 'apis.json')
-    with open(output_path, 'w', encoding='utf-8') as f:
-        json.dump(api_dicts, f, indent=2, ensure_ascii=False)
+    # Sort based on category filter
+    if args.category:
+        api_dicts.sort(key=lambda x: x['name'].lower())
+    else:
+        api_dicts.sort(key=lambda x: (x['category'].lower(), x['name'].lower()))
     
-    print(f"Extracted {len(apis)} APIs to data/apis.json")
+    # Export to appropriate JSON file
+    base_data_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'data')
+    if args.category:
+        category_slug = generate_slug(args.category, "")
+        output_path = os.path.join(base_data_dir, f'apis_{category_slug}.json')
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(api_dicts, f, indent=2, ensure_ascii=False)
+        print(f"Extracted {len(apis)} APIs from category '{args.category}' to {output_path}")
+    else:
+        output_path = os.path.join(base_data_dir, 'apis.json')
+        with open(output_path, 'w', encoding='utf-8') as f:
+            json.dump(api_dicts, f, indent=2, ensure_ascii=False)
+        print(f"Extracted {len(apis)} APIs to {output_path}")
+    
+    # Generate problems summary if requested
+    if args.report:
+        problems_summary = generate_problems_summary(apis)
+        problems_path = os.path.join(base_data_dir, 'problems_summary.json')
+        with open(problems_path, 'w', encoding='utf-8') as f:
+            json.dump(problems_summary, f, indent=2, ensure_ascii=False)
+        print(f"Generated problems summary to {problems_path}")
+    
+    # Check for strict mode
+    if args.strict and format_anomalies_found:
+        print("ERROR: Found format anomalies in strict mode. Exiting.")
+        sys.exit(1)
     
     # Generate problems summary if requested
     if args.report:

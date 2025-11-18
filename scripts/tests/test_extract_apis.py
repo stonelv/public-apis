@@ -117,7 +117,7 @@ API | Description | Auth | HTTPS | CORS
         
         # Test parsing
         from extract_apis import parse_readme as test_parse_readme
-        apis = test_parse_readme(str(readme_path))
+        apis, format_anomalies_found = test_parse_readme(str(readme_path))
         
         # Check number of APIs
         assert len(apis) == 3
@@ -146,7 +146,7 @@ API | Description | Auth | HTTPS | CORS
         readme_path = tmp_path / "README.md"
         readme_path.write_text(test_content)
         
-        apis = parse_readme(str(readme_path))
+        apis, _ = parse_readme(str(readme_path))
         assert "short_description" in apis[0].problems
     
     def test_unknown_auth_detection(self, tmp_path):
@@ -154,12 +154,12 @@ API | Description | Auth | HTTPS | CORS
         test_content = '''### Animals
 API | Description | Auth | HTTPS | CORS 
 |:---|:---|:---|:---|:---|
-| [Test API](https://example.com) | Test API with custom auth | Custom | Yes | No |
+| [Test API](https://example.com) | Test API with unknown auth | | Yes | No |
 '''        
         readme_path = tmp_path / "README.md"
         readme_path.write_text(test_content)
         
-        apis = parse_readme(str(readme_path))
+        apis, _ = parse_readme(str(readme_path))
         assert "unknown_auth" in apis[0].problems
     
     def test_illegal_url_detection(self, tmp_path):
@@ -172,7 +172,7 @@ API | Description | Auth | HTTPS | CORS
         readme_path = tmp_path / "README.md"
         readme_path.write_text(test_content)
         
-        apis = parse_readme(str(readme_path))
+        apis, _ = parse_readme(str(readme_path))
         assert "illegal_url" in apis[0].problems
 
 if __name__ == '__main__':

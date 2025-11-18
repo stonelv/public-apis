@@ -1899,7 +1899,7 @@ A Python script is available to extract APIs from this README and generate struc
 - **Normalization**: Standardizes authentication types, HTTPS status, and CORS status
 - **Quality Checks**: Detects short descriptions, illegal URLs, domain clusters, and more
 - **Filtering**: Supports limiting number of APIs and filtering by category
-- **Reporting**: Generates comprehensive problems summary
+- **Reporting**: Generates comprehensive problems summary with domain/count stats
 
 ### Usage
 ```bash
