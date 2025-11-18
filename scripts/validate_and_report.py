@@ -31,14 +31,21 @@ API_ROW_PATTERN = re.compile(r'\|\s*\[([^\]]+)\]\(([^)]+)\)\s*\|\s*([^|]+)\s*\|\
 
 # Normalization mappings
 AUTH_MAPPING = {
-    'No': 'no',
-    'apiKey': 'api_key',
-    'OAuth': 'oauth',
-    'X-Mashape-Key': 'api_key',
-    'User-Agent': 'user_agent',
-    'Unknown': 'unknown',
-    '`apiKey`': 'api_key',
-    '`OAuth`': 'oauth'
+    'none': 'none',
+    'oauth': 'oauth',
+    'oauth2': 'oauth',
+    'oauth 2.0': 'oauth',
+    'oauth 2': 'oauth',
+    'api_key': 'apikey',
+    'apikey': 'apikey',
+    'api key': 'apikey',
+    'api-key': 'apikey',
+    'api_key': 'apikey',
+    'x-mashape-key': 'x-mashape-key',
+    'user-agent': 'user-agent',
+    'custom': 'custom',
+    'unknown': 'unknown',
+    '': 'none'
 }
 
 HTTPS_MAPPING = {
@@ -114,6 +121,20 @@ def parse_readme(readme_path: str) -> Tuple[List[Dict], Dict[str, int]]:
             cors_str = columns[4] if len(columns) > 4 else 'Unknown'
 
             # Normalize values
+            auth = auth.strip()
+            
+            # Remove backticks first
+            if '`' in auth:
+                auth = auth.replace('`', '')
+            
+            # Convert to lowercase
+            auth = auth.lower()
+            
+            # Check for multiple auth types
+            if ' or ' in auth:
+                # Use the first auth type for simplicity
+                auth = auth.split(' or ')[0].strip()
+
             normalized_auth = AUTH_MAPPING.get(auth, 'unknown')
             normalized_https = HTTPS_MAPPING.get(https_str, False)
             normalized_cors = CORS_MAPPING.get(cors_str, None)
@@ -145,7 +166,9 @@ def parse_readme(readme_path: str) -> Tuple[List[Dict], Dict[str, int]]:
                 'domain': domain,
                 'status': 'unknown',
                 'last_checked': None,
-                'reliability_score': 0.0
+                'reliability_score': 0.0,
+                'response_time': None,
+                'redirect_count': None
             }
 
             apis.append(api_entry)
@@ -162,41 +185,81 @@ def check_api_status(api: Dict, session: requests.Session, dry_run: bool) -> Dic
     if dry_run:
         result['status'] = 'ok'
         result['reliability_score'] = 1.0
+        result['response_time'] = 0.5  # Simulate fast response
+        result['redirect_count'] = 0  # Simulate no redirects
         return result
 
     try:
         # Try HEAD request first
+        start_time = datetime.datetime.now()
         response = session.head(api['url'], allow_redirects=True)
+        response_time = (datetime.datetime.now() - start_time).total_seconds()
         status_code = response.status_code
+        redirect_count = len(response.history)
     except requests.exceptions.RequestException:
         try:
-            # Fall back to GET request
-            response = session.get(api['url'], allow_redirects=True, timeout=session.timeout)
+            # Fall back to GET request with limited response
+            start_time = datetime.datetime.now()
+            response = session.get(api['url'], allow_redirects=True, timeout=session.timeout, stream=True)
+            response_time = (datetime.datetime.now() - start_time).total_seconds()
             status_code = response.status_code
+            redirect_count = len(response.history)
+            # Close the connection to save resources
+            response.close()
         except requests.exceptions.RequestException as e:
             result['status'] = 'failed'
             result['reliability_score'] = 0.0
+            result['response_time'] = None
+            result['redirect_count'] = None
             return result
 
-    # Determine status and reliability score
+    # Determine status and initial reliability score
     if 200 <= status_code < 400:
         result['status'] = 'ok'
-        result['reliability_score'] = 1.0
+        reliability_score = 1.0
     elif status_code == 401 or status_code == 403:
         # Authentication required but API is reachable
         result['status'] = 'ok'
-        result['reliability_score'] = 0.8
+        reliability_score = 0.8
     elif status_code == 429:
         # Rate limited but API is reachable
         result['status'] = 'ok'
-        result['reliability_score'] = 0.7
+        reliability_score = 0.7
     elif 500 <= status_code < 600:
         # Server error
         result['status'] = 'server_error'
-        result['reliability_score'] = 0.3
+        reliability_score = 0.3
     else:
         result['status'] = 'failed'
-        result['reliability_score'] = 0.0
+        reliability_score = 0.0
+
+    # Apply response time penalty (additive up to 0.2)
+    if response_time > 2.0:
+        response_time_penalty = min(0.2, (response_time - 2.0) / 10.0)
+        reliability_score = max(0.0, reliability_score - response_time_penalty)
+
+    # Apply redirect penalty (0.05 per redirect, max 0.2)
+    if redirect_count > 0:
+        redirect_penalty = min(0.2, redirect_count * 0.05)
+        reliability_score = max(0.0, reliability_score - redirect_penalty)
+
+    # Apply specific status code penalties
+    if status_code == 202:
+        # Accepted - still processing
+        reliability_score = max(0.0, reliability_score - 0.1)
+    elif status_code == 204:
+        # No content - still valid, but less reliable
+        reliability_score = max(0.0, reliability_score - 0.1)
+    elif status_code == 301:
+        # Permanent redirect - good, but slight penalty
+        reliability_score = max(0.0, reliability_score - 0.05)
+    elif status_code == 302:
+        # Temporary redirect - more significant penalty
+        reliability_score = max(0.0, reliability_score - 0.15)
+
+    result['reliability_score'] = round(reliability_score, 3)
+    result['response_time'] = round(response_time, 3)
+    result['redirect_count'] = redirect_count
 
     return result
 
@@ -232,12 +295,11 @@ def generate_report(apis: List[Dict], category_counts: Dict[str, int]) -> Dict:
     unknown_auth_apis = sum(1 for api in apis if api['auth'] == 'unknown')
 
     # Calculate category size anomalies (categories with too few or too many APIs)
-    avg_apis_per_category = total_apis / len(category_counts) if category_counts else 0
     category_anomalies = []
     for category, count in category_counts.items():
         if count < 3:
             category_anomalies.append({'category': category, 'type': 'too_few', 'count': count})
-        elif count > avg_apis_per_category * 3:
+        elif count > 120:
             category_anomalies.append({'category': category, 'type': 'too_many', 'count': count})
 
     # Check for domain conflicts

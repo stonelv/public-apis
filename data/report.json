@@ -1,269 +1,29 @@
 {
-  "timestamp": "2025-11-18T13:35:33.641302",
+  "timestamp": "2025-11-18T14:10:49.592606",
   "summary": {
     "total_apis": 5,
     "ok_apis": 5,
     "failed_apis": 0,
-    "unknown_auth_apis": 0,
+    "unknown_auth_apis": 3,
     "categories": 51
   },
-  "category_anomalies": [
-    {
-      "category": "Animals",
-      "type": "too_many",
-      "count": 27
-    },
-    {
-      "category": "Anime",
-      "type": "too_many",
-      "count": 19
-    },
-    {
-      "category": "Anti-Malware",
-      "type": "too_many",
-      "count": 15
-    },
-    {
-      "category": "Art & Design",
-      "type": "too_many",
-      "count": 20
-    },
-    {
-      "category": "Authentication & Authorization",
-      "type": "too_many",
-      "count": 7
-    },
-    {
-      "category": "Blockchain",
-      "type": "too_many",
-      "count": 11
-    },
-    {
-      "category": "Books",
-      "type": "too_many",
-      "count": 23
-    },
-    {
-      "category": "Business",
-      "type": "too_many",
-      "count": 23
-    },
-    {
-      "category": "Calendar",
-      "type": "too_many",
-      "count": 16
-    },
-    {
-      "category": "Cloud Storage & File Sharing",
-      "type": "too_many",
-      "count": 19
-    },
-    {
-      "category": "Continuous Integration",
-      "type": "too_many",
-      "count": 6
-    },
-    {
-      "category": "Cryptocurrency",
-      "type": "too_many",
-      "count": 64
-    },
-    {
-      "category": "Currency Exchange",
-      "type": "too_many",
-      "count": 17
-    },
-    {
-      "category": "Data Validation",
-      "type": "too_many",
-      "count": 7
-    },
-    {
-      "category": "Development",
-      "type": "too_many",
-      "count": 120
-    },
-    {
-      "category": "Dictionaries",
-      "type": "too_many",
-      "count": 13
-    },
-    {
-      "category": "Documents & Productivity",
-      "type": "too_many",
-      "count": 28
-    },
-    {
-      "category": "Email",
-      "type": "too_many",
-      "count": 17
-    },
-    {
-      "category": "Entertainment",
-      "type": "too_many",
-      "count": 10
-    },
-    {
-      "category": "Environment",
-      "type": "too_many",
-      "count": 17
-    },
-    {
-      "category": "Events",
-      "type": "too_many",
-      "count": 3
-    },
-    {
-      "category": "Finance",
-      "type": "too_many",
-      "count": 44
-    },
-    {
-      "category": "Food & Drink",
-      "type": "too_many",
-      "count": 24
-    },
-    {
-      "category": "Games & Comics",
-      "type": "too_many",
-      "count": 96
-    },
-    {
-      "category": "Geocoding",
-      "type": "too_many",
-      "count": 86
-    },
-    {
-      "category": "Government",
-      "type": "too_many",
-      "count": 86
-    },
-    {
-      "category": "Health",
-      "type": "too_many",
-      "count": 31
-    },
-    {
-      "category": "Jobs",
-      "type": "too_many",
-      "count": 17
-    },
-    {
-      "category": "Machine Learning",
-      "type": "too_many",
-      "count": 22
-    },
-    {
-      "category": "Music",
-      "type": "too_many",
-      "count": 33
-    },
-    {
-      "category": "News",
-      "type": "too_many",
-      "count": 19
-    },
-    {
-      "category": "Open Data",
-      "type": "too_many",
-      "count": 35
-    },
-    {
-      "category": "Open Source Projects",
-      "type": "too_many",
-      "count": 9
-    },
-    {
-      "category": "Patent",
-      "type": "too_many",
-      "count": 4
-    },
-    {
-      "category": "Personality",
-      "type": "too_many",
-      "count": 23
-    },
-    {
-      "category": "Phone",
-      "type": "too_many",
-      "count": 5
-    },
-    {
-      "category": "Photography",
-      "type": "too_many",
-      "count": 29
-    },
-    {
-      "category": "Programming",
-      "type": "too_many",
-      "count": 5
-    },
-    {
-      "category": "Science & Math",
-      "type": "too_many",
-      "count": 33
-    },
-    {
-      "category": "Security",
-      "type": "too_many",
-      "count": 38
-    },
-    {
-      "category": "Shopping",
-      "type": "too_many",
-      "count": 14
-    },
-    {
-      "category": "Social",
-      "type": "too_many",
-      "count": 40
-    },
-    {
-      "category": "Sports & Fitness",
-      "type": "too_many",
-      "count": 33
-    },
-    {
-      "category": "Test Data",
-      "type": "too_many",
-      "count": 25
-    },
-    {
-      "category": "Text Analysis",
-      "type": "too_many",
-      "count": 15
-    },
-    {
-      "category": "Tracking",
-      "type": "too_many",
-      "count": 9
-    },
-    {
-      "category": "Transportation",
-      "type": "too_many",
-      "count": 69
-    },
-    {
-      "category": "URL Shorteners",
-      "type": "too_many",
-      "count": 19
-    },
-    {
-      "category": "Vehicle",
-      "type": "too_many",
-      "count": 6
-    },
-    {
-      "category": "Video",
-      "type": "too_many",
-      "count": 43
-    },
-    {
-      "category": "Weather",
-      "type": "too_many",
-      "count": 31
-    }
-  ],
+  "category_anomalies": [],
   "domain_conflicts": [],
-  "unknown_auth_entries": []
+  "unknown_auth_entries": [
+    {
+      "name": "Cat Facts",
+      "url": "https://alexwohlbruck.github.io/cat-facts/",
+      "auth": "unknown"
+    },
+    {
+      "name": "Axolotl",
+      "url": "https://theaxolotlapi.netlify.app/",
+      "auth": "unknown"
+    },
+    {
+      "name": "Cataas",
+      "url": "https://cataas.com/",
+      "auth": "unknown"
+    }
+  ]
 }
