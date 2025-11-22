@@ -40,12 +40,12 @@ AUTH_MAPPING = {
     'apikey': 'apikey',
     'api key': 'apikey',
     'api-key': 'apikey',
-    'api_key': 'apikey',
     'x-mashape-key': 'x-mashape-key',
     'user-agent': 'user-agent',
     'custom': 'custom',
     'unknown': 'unknown',
-    '': 'none'
+    '': 'none',
+    'no': 'none'
 }
 
 HTTPS_MAPPING = {

@@ -1,29 +1,56 @@
 {
-  "timestamp": "2025-11-18T14:10:49.592606",
+  "timestamp": "2025-11-22T11:22:31.816675",
   "summary": {
-    "total_apis": 5,
-    "ok_apis": 5,
-    "failed_apis": 0,
-    "unknown_auth_apis": 3,
+    "total_apis": 100,
+    "ok_apis": 86,
+    "failed_apis": 14,
+    "unknown_auth_apis": 0,
     "categories": 51
   },
   "category_anomalies": [],
-  "domain_conflicts": [],
-  "unknown_auth_entries": [
+  "domain_conflicts": [
     {
-      "name": "Cat Facts",
-      "url": "https://alexwohlbruck.github.io/cat-facts/",
-      "auth": "unknown"
+      "domain": "github.com",
+      "apis": [
+        {
+          "name": "Movebank",
+          "url": "https://github.com/movebank/movebank-api-doc"
+        },
+        {
+          "name": "MeowFacts",
+          "url": "https://github.com/wh-iterabb-it/meowfacts"
+        },
+        {
+          "name": "AniList",
+          "url": "https://github.com/AniList/ApiV2-GraphQL-Docs"
+        },
+        {
+          "name": "AnimeChan",
+          "url": "https://github.com/RocktimSaikia/anime-chan"
+        },
+        {
+          "name": "EmojiHub",
+          "url": "https://github.com/cheatsnake/emojihub"
+        },
+        {
+          "name": "Harvard Art Museums",
+          "url": "https://github.com/harvardartmuseums/api-docs"
+        }
+      ]
     },
     {
-      "name": "Axolotl",
-      "url": "https://theaxolotlapi.netlify.app/",
-      "auth": "unknown"
-    },
-    {
-      "name": "Cataas",
-      "url": "https://cataas.com/",
-      "auth": "unknown"
+      "domain": "rapidapi.com",
+      "apis": [
+        {
+          "name": "Mangapi",
+          "url": "https://rapidapi.com/pierre.carcellermeunier/api/mangapi3/"
+        },
+        {
+          "name": "NoPhishy",
+          "url": "https://rapidapi.com/Amiichu/api/exerra-phishing-check/"
+        }
+      ]
     }
-  ]
+  ],
+  "unknown_auth_entries": []
 }

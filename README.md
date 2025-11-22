@@ -102,7 +102,7 @@ API | Description | Auth | HTTPS | CORS
 | [AdoptAPet](https://www.adoptapet.com/public/apis/pet_list.html) | Resource to help get pets adopted | `apiKey` | Yes | Yes |
 | [Axolotl](https://theaxolotlapi.netlify.app/) | Collection of axolotl pictures and facts | No | Yes | No |
 | [Cat Facts](https://alexwohlbruck.github.io/cat-facts/) | Daily cat facts | No | Yes | No | |
-| [Cataas](https://cataas.com/) | Cat as a service (cats pictures and gifs) | No | Yes | No |
+| [Cataas](https://cataas.com/) | Cat as a service (cats pictures and gifs) | No | Yes | No  | ⚠️ Unstable |
 | [Cats](https://docs.thecatapi.com/) | Pictures of cats from Tumblr | `apiKey` | Yes | No |
 | [Dog Facts](https://dukengn.github.io/Dog-facts-API/) | Random dog facts | No | Yes | Yes |
 | [Dog Facts](https://kinduff.github.io/dog-api/) | Random facts of Dogs | No | Yes | Yes |
@@ -117,15 +117,15 @@ API | Description | Auth | HTTPS | CORS
 | [Petfinder](https://www.petfinder.com/developers/) | Petfinder is dedicated to helping pets find homes, another resource to get pets adopted | `apiKey` | Yes | Yes |
 | [PlaceBear](https://placebear.com/) | Placeholder bear pictures | No | Yes | Yes |
 | [PlaceDog](https://place.dog) | Placeholder Dog pictures | No | Yes | Yes |
-| [PlaceKitten](https://placekitten.com/) | Placeholder Kitten pictures | No | Yes | Yes |
+| [PlaceKitten](https://placekitten.com/) | Placeholder Kitten pictures | No | Yes | Yes  | ⚠️ Unstable |
 | [RandomDog](https://random.dog/woof.json) | Random pictures of dogs | No | Yes | Yes |
 | [RandomDuck](https://random-d.uk/api) | Random pictures of ducks | No | Yes | No |
 | [RandomFox](https://randomfox.ca/floof/) | Random pictures of foxes | No | Yes | No |
 | [RescueGroups](https://userguide.rescuegroups.org/display/APIDG/API+Developers+Guide+Home) | Adoption | No | Yes | Unknown |
-| [Shibe.Online](http://shibe.online/) | Random pictures of Shiba Inu, cats or birds | No | Yes | Yes |
+| [Shibe.Online](http://shibe.online/) | Random pictures of Shiba Inu, cats or birds | No | Yes | Yes  | ⚠️ Unstable |
 | [The Dog](https://thedogapi.com/) | A public service all about Dogs, free to use when making your fancy new App, Website or Service | `apiKey` | Yes | No |
 | [xeno-canto](https://xeno-canto.org/explore/api) | Bird recordings | No | Yes | Unknown |
-| [Zoo Animals](https://zoo-animal-api.herokuapp.com/) | Facts and pictures of zoo animals | No | Yes | Yes |
+| [Zoo Animals](https://zoo-animal-api.herokuapp.com/) | Facts and pictures of zoo animals | No | Yes | Yes  | ⚠️ Unstable |
 
 **[⬆ Back to Index](#index)**
 <br >
@@ -140,16 +140,16 @@ API | Description | Auth | HTTPS | CORS |
 | [AnimeChan](https://github.com/RocktimSaikia/anime-chan) | Anime quotes (over 10k+) | No | Yes | No |
 | [AnimeFacts](https://chandan-02.github.io/anime-facts-rest-api/) | Anime Facts (over 100+) | No | Yes | Yes |
 | [AnimeNewsNetwork](https://www.animenewsnetwork.com/encyclopedia/api.php) | Anime industry news | No | Yes | Yes |
-| [Catboy](https://catboys.com/api) | Neko images, funny GIFs & more | No | Yes | Yes |
+| [Catboy](https://catboys.com/api) | Neko images, funny GIFs & more | No | Yes | Yes  | ⚠️ Unstable |
 | [Danbooru Anime](https://danbooru.donmai.us/wiki_pages/help:api) | Thousands of anime artist database to find good anime art | `apiKey` | Yes | Yes |
 | [Jikan](https://jikan.moe) | Unofficial MyAnimeList API | No | Yes | Yes |
 | [Kitsu](https://kitsu.docs.apiary.io/) | Anime discovery platform | `OAuth` | Yes | Yes |
-| [MangaDex](https://api.mangadex.org/docs.html) | Manga Database and Community | `apiKey` | Yes | Unknown |
+| [MangaDex](https://api.mangadex.org/docs.html) | Manga Database and Community | `apiKey` | Yes | Unknown  | ⚠️ Unstable |
 | [Mangapi](https://rapidapi.com/pierre.carcellermeunier/api/mangapi3/) | Translate manga pages from one language to another | `apiKey` | Yes | Unknown |
 | [MyAnimeList](https://myanimelist.net/clubs.php?cid=13727) | Anime and Manga Database and Community | `OAuth` | Yes | Unknown |
 | [NekosBest](https://docs.nekos.best) | Neko Images & Anime roleplaying GIFs | No | Yes | Yes |
 | [Shikimori](https://shikimori.one/api/doc) | Anime discovery, tracking, forum, rates | `OAuth` | Yes | Unknown |
-| [Studio Ghibli](https://ghibliapi.herokuapp.com) | Resources from Studio Ghibli films | No | Yes | Yes |
+| [Studio Ghibli](https://ghibliapi.herokuapp.com) | Resources from Studio Ghibli films | No | Yes | Yes  | ⚠️ Unstable |
 | [Trace Moe](https://soruly.github.io/trace.moe-api/#/) | A useful tool to get the exact scene of an anime from a screenshot | No | Yes | No |
 | [Waifu.im](https://waifu.im/docs) | Get waifu pictures from an archive of over 4000 images and multiple tags | No | Yes | Yes |
 | [Waifu.pics](https://waifu.pics/docs) | Image sharing platform for anime images | No | Yes | No |
@@ -162,7 +162,7 @@ API | Description | Auth | HTTPS | CORS |
 API | Description | Auth | HTTPS | CORS |
 |:---|:---|:---|:---|:---|
 | [AbuseIPDB](https://docs.abuseipdb.com/) | IP/domain/URL reputation | `apiKey` | Yes | Unknown |
-| [AlienVault Open Threat Exchange (OTX)](https://otx.alienvault.com/api) | IP/domain/URL reputation | `apiKey` | Yes | Unknown |
+| [AlienVault Open Threat Exchange (OTX)](https://otx.alienvault.com/api) | IP/domain/URL reputation | `apiKey` | Yes | Unknown  | ⚠️ Unstable |
 | [CAPEsandbox](https://capev2.readthedocs.io/en/latest/usage/api.html) | Malware execution and analysis | `apiKey` | Yes | Unknown |
 | [Google Safe Browsing](https://developers.google.com/safe-browsing/) | Google Link/Domain Flagging | `apiKey` | Yes | Unknown |
 | [MalDatabase](https://maldatabase.com/api-doc.html) | Provide malware datasets and threat intelligence feeds | `apiKey` | Yes | Unknown |
@@ -170,7 +170,7 @@ API | Description | Auth | HTTPS | CORS |
 | [MalwareBazaar](https://bazaar.abuse.ch/api/) | Collect and share malware samples | `apiKey` | Yes | Unknown |
 | [Metacert](https://metacert.com/) | Metacert Link Flagging | `apiKey` | Yes | Unknown |
 | [NoPhishy](https://rapidapi.com/Amiichu/api/exerra-phishing-check/) | Check links to see if they're known phishing attempts | `apiKey` | Yes | Yes |
-| [Phisherman](https://phisherman.gg/) | IP/domain/URL reputation | `apiKey` | Yes | Unknown |
+| [Phisherman](https://phisherman.gg/) | IP/domain/URL reputation | `apiKey` | Yes | Unknown  | ⚠️ Unstable |
 | [Scanii](https://docs.scanii.com/) | Simple REST API that can scan submitted documents/files for the presence of threats | `apiKey` | Yes | Yes |
 | [URLhaus](https://urlhaus-api.abuse.ch/) | Bulk queries and Download Malware Samples | No | Yes | Yes |
 | [URLScan.io](https://urlscan.io/about-api/) | Scan and Analyse URLs | `apiKey` | Yes | Unknown |
@@ -183,7 +183,7 @@ API | Description | Auth | HTTPS | CORS |
 ### Art & Design
 API | Description | Auth | HTTPS | CORS |
 |:---|:---|:---|:---|:---|
-| [Améthyste](https://api.amethyste.moe/) | Generate images for Discord users | `apiKey` | Yes | Unknown |
+| [Améthyste](https://api.amethyste.moe/) | Generate images for Discord users | `apiKey` | Yes | Unknown  | ⚠️ Unstable |
 | [Art Institute of Chicago](https://api.artic.edu/docs/) | Art | No | Yes | Yes |
 | [Colormind](http://colormind.io/api-access/) | Color scheme generator | No | No | Unknown |
 | [ColourLovers](http://www.colourlovers.com/api) | Get various patterns, palettes and images | No | No | Unknown |
@@ -199,10 +199,10 @@ API | Description | Auth | HTTPS | CORS |
 | [Metropolitan Museum of Art](https://metmuseum.github.io/) | Met Museum of Art | No | Yes | No |
 | [Noun Project](http://api.thenounproject.com/index.html) | Icons | `OAuth` | No | Unknown |
 | [PHP-Noise](https://php-noise.com/) | Noise Background Image Generator | No | Yes | Yes |
-| [Pixel Encounter](https://pixelencounter.com/api) | SVG Icon Generator | No | Yes | No |
-| [Rijksmuseum](https://data.rijksmuseum.nl/object-metadata/api/) | RijksMuseum Data | `apiKey` | Yes | Unknown |
+| [Pixel Encounter](https://pixelencounter.com/api) | SVG Icon Generator | No | Yes | No  | ⚠️ Unstable |
+| [Rijksmuseum](https://data.rijksmuseum.nl/object-metadata/api/) | RijksMuseum Data | `apiKey` | Yes | Unknown  | ⚠️ Unstable |
 | [Word Cloud](https://wordcloudapi.com/) | Easily create word clouds | `apiKey` | Yes | Unknown |
-| [xColors](https://x-colors.herokuapp.com/) | Generate & convert colors | No | Yes | Yes |
+| [xColors](https://x-colors.herokuapp.com/) | Generate & convert colors | No | Yes | Yes  | ⚠️ Unstable |
 
 **[⬆ Back to Index](#index)**
 <br >
@@ -214,7 +214,7 @@ API | Description | Auth | HTTPS | CORS |
 | [GetOTP](https://otp.dev/en/docs/) | Implement OTP flow quickly | `apiKey` | Yes | No |
 | [Micro User Service](https://m3o.com/user) | User management and authentication | `apiKey` | Yes | No |
 | [MojoAuth](https://mojoauth.com) | Secure and modern passwordless authentication platform | `apiKey` | Yes | Yes |
-| [SAWO Labs](https://sawolabs.com) | Simplify login and improve user experience by integrating passwordless authentication in your app | `apiKey` | Yes | Yes |
+| [SAWO Labs](https://sawolabs.com) | Simplify login and improve user experience by integrating passwordless authentication in your app | `apiKey` | Yes | Yes  | ⚠️ Unstable |
 | [Stytch](https://stytch.com/) | User infrastructure for modern applications | `apiKey` | Yes | No |
 | [Warrant](https://warrant.dev/) | APIs for authorization and access control | `apiKey` | Yes | Yes |
 
@@ -233,7 +233,7 @@ API | Description | Auth | HTTPS | CORS |
 | [Nownodes](https://nownodes.io/) | Blockchain-as-a-service solution that provides high-quality connection via API | `apiKey` | Yes | Unknown |
 | [Steem](https://developers.steem.io/) | Blockchain-based blogging and social media website | No | No | No |
 | [The Graph](https://thegraph.com) | Indexing protocol for querying networks like Ethereum with GraphQL | `apiKey` | Yes | Unknown |
-| [Walltime](https://walltime.info/api.html) | To retrieve Walltime's market info | No | Yes | Unknown |
+| [Walltime](https://walltime.info/api.html) | To retrieve Walltime's market info | No | Yes | Unknown  | ⚠️ Unstable |
 | [Watchdata](https://docs.watchdata.io) | Provide simple and reliable API access to Ethereum blockchain | `apiKey` | Yes | Unknown |
 
 **[⬆ Back to Index](#index)**
