@@ -1,0 +1,275 @@
+{
+  "timestamp": "2025-11-22T11:22:31.817257",
+  "category_size_anomalies": [],
+  "domain_conflicts": [
+    {
+      "domain": "github.com",
+      "apis": [
+        {
+          "name": "Movebank",
+          "url": "https://github.com/movebank/movebank-api-doc"
+        },
+        {
+          "name": "MeowFacts",
+          "url": "https://github.com/wh-iterabb-it/meowfacts"
+        },
+        {
+          "name": "AniList",
+          "url": "https://github.com/AniList/ApiV2-GraphQL-Docs"
+        },
+        {
+          "name": "AnimeChan",
+          "url": "https://github.com/RocktimSaikia/anime-chan"
+        },
+        {
+          "name": "EmojiHub",
+          "url": "https://github.com/cheatsnake/emojihub"
+        },
+        {
+          "name": "Harvard Art Museums",
+          "url": "https://github.com/harvardartmuseums/api-docs"
+        }
+      ]
+    },
+    {
+      "domain": "rapidapi.com",
+      "apis": [
+        {
+          "name": "Mangapi",
+          "url": "https://rapidapi.com/pierre.carcellermeunier/api/mangapi3/"
+        },
+        {
+          "name": "NoPhishy",
+          "url": "https://rapidapi.com/Amiichu/api/exerra-phishing-check/"
+        }
+      ]
+    }
+  ],
+  "unknown_auth_apis": [],
+  "failed_apis": [
+    {
+      "name": "Cataas",
+      "description": "Cat as a service (cats pictures and gifs)",
+      "auth": "none",
+      "https": true,
+      "cors": false,
+      "category": "Animals",
+      "url": "https://cataas.com/",
+      "slug": "cataas-cataas.com",
+      "domain": "cataas.com",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:00.879555",
+      "reliability_score": 0.0,
+      "response_time": 4.026,
+      "redirect_count": 0
+    },
+    {
+      "name": "Zoo Animals",
+      "description": "Facts and pictures of zoo animals",
+      "auth": "none",
+      "https": true,
+      "cors": true,
+      "category": "Animals",
+      "url": "https://zoo-animal-api.herokuapp.com/",
+      "slug": "zoo-animals-zoo-animal-api.herokuapp.com",
+      "domain": "zoo-animal-api.herokuapp.com",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:10.194069",
+      "reliability_score": 0.0,
+      "response_time": 2.936,
+      "redirect_count": 0
+    },
+    {
+      "name": "Catboy",
+      "description": "Neko images, funny GIFs & more",
+      "auth": "none",
+      "https": true,
+      "cors": true,
+      "category": "Anime",
+      "url": "https://catboys.com/api",
+      "slug": "catboy-catboys.com",
+      "domain": "catboys.com",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:13.129678",
+      "reliability_score": 0.0,
+      "response_time": 2.306,
+      "redirect_count": 0
+    },
+    {
+      "name": "MangaDex",
+      "description": "Manga Database and Community",
+      "auth": "apikey",
+      "https": true,
+      "cors": null,
+      "category": "Anime",
+      "url": "https://api.mangadex.org/docs.html",
+      "slug": "mangadex-api.mangadex.org",
+      "domain": "api.mangadex.org",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:14.752061",
+      "reliability_score": 0.0,
+      "response_time": 2.375,
+      "redirect_count": 0
+    },
+    {
+      "name": "Studio Ghibli",
+      "description": "Resources from Studio Ghibli films",
+      "auth": "none",
+      "https": true,
+      "cors": true,
+      "category": "Anime",
+      "url": "https://ghibliapi.herokuapp.com",
+      "slug": "studio-ghibli-ghibliapi.herokuapp.com",
+      "domain": "ghibliapi.herokuapp.com",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:16.697523",
+      "reliability_score": 0.0,
+      "response_time": 3.252,
+      "redirect_count": 0
+    },
+    {
+      "name": "AlienVault Open Threat Exchange (OTX)",
+      "description": "IP/domain/URL reputation",
+      "auth": "apikey",
+      "https": true,
+      "cors": null,
+      "category": "Anti-Malware",
+      "url": "https://otx.alienvault.com/api",
+      "slug": "alienvault-open-threat-exchange-(otx)-otx.alienvault.com",
+      "domain": "otx.alienvault.com",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:18.283580",
+      "reliability_score": 0.0,
+      "response_time": 2.792,
+      "redirect_count": 0
+    },
+    {
+      "name": "Shibe.Online",
+      "description": "Random pictures of Shiba Inu, cats or birds",
+      "auth": "none",
+      "https": true,
+      "cors": true,
+      "category": "Animals",
+      "url": "http://shibe.online/",
+      "slug": "shibe-online-shibe.online",
+      "domain": "shibe.online",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:09.168042",
+      "reliability_score": 0.0,
+      "response_time": null,
+      "redirect_count": null
+    },
+    {
+      "name": "Rijksmuseum",
+      "description": "RijksMuseum Data",
+      "auth": "apikey",
+      "https": true,
+      "cors": null,
+      "category": "Art & Design",
+      "url": "https://data.rijksmuseum.nl/object-metadata/api/",
+      "slug": "rijksmuseum-data.rijksmuseum.nl",
+      "domain": "data.rijksmuseum.nl",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:29.290996",
+      "reliability_score": 0.0,
+      "response_time": 3.168,
+      "redirect_count": 0
+    },
+    {
+      "name": "xColors",
+      "description": "Generate & convert colors",
+      "auth": "none",
+      "https": true,
+      "cors": true,
+      "category": "Art & Design",
+      "url": "https://x-colors.herokuapp.com/",
+      "slug": "xcolors-x-colors.herokuapp.com",
+      "domain": "x-colors.herokuapp.com",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:30.576041",
+      "reliability_score": 0.0,
+      "response_time": 3.117,
+      "redirect_count": 0
+    },
+    {
+      "name": "Pixel Encounter",
+      "description": "SVG Icon Generator",
+      "auth": "none",
+      "https": true,
+      "cors": false,
+      "category": "Art & Design",
+      "url": "https://pixelencounter.com/api",
+      "slug": "pixel-encounter-pixelencounter.com",
+      "domain": "pixelencounter.com",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:28.863201",
+      "reliability_score": 0.0,
+      "response_time": null,
+      "redirect_count": null
+    },
+    {
+      "name": "Phisherman",
+      "description": "IP/domain/URL reputation",
+      "auth": "apikey",
+      "https": true,
+      "cors": null,
+      "category": "Anti-Malware",
+      "url": "https://phisherman.gg/",
+      "slug": "phisherman-phisherman.gg",
+      "domain": "phisherman.gg",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:21.177344",
+      "reliability_score": 0.0,
+      "response_time": null,
+      "redirect_count": null
+    },
+    {
+      "name": "SAWO Labs",
+      "description": "Simplify login and improve user experience by integrating passwordless authentication in your app",
+      "auth": "apikey",
+      "https": true,
+      "cors": true,
+      "category": "Authentication & Authorization",
+      "url": "https://sawolabs.com",
+      "slug": "sawo-labs-sawolabs.com",
+      "domain": "sawolabs.com",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:32.458886",
+      "reliability_score": 0.0,
+      "response_time": null,
+      "redirect_count": null
+    },
+    {
+      "name": "Améthyste",
+      "description": "Generate images for Discord users",
+      "auth": "apikey",
+      "https": true,
+      "cors": null,
+      "category": "Art & Design",
+      "url": "https://api.amethyste.moe/",
+      "slug": "améthyste-api.amethyste.moe",
+      "domain": "api.amethyste.moe",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:22.451671",
+      "reliability_score": 0.0,
+      "response_time": null,
+      "redirect_count": null
+    },
+    {
+      "name": "Walltime",
+      "description": "To retrieve Walltime's market info",
+      "auth": "none",
+      "https": true,
+      "cors": null,
+      "category": "Blockchain",
+      "url": "https://walltime.info/api.html",
+      "slug": "walltime-walltime.info",
+      "domain": "walltime.info",
+      "status": "failed",
+      "last_checked": "2025-11-22T11:21:39.611485",
+      "reliability_score": 0.0,
+      "response_time": null,
+      "redirect_count": null
+    }
+  ]
+}
