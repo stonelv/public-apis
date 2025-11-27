@@ -76,6 +76,11 @@ python api_browser.py -q weather
 python api_browser.py -c Animals
 ```
 
+3. Use the sample fixture file and output as JSON:
+```bash
+python api_browser.py --file contrib/api_browser/fixtures/sample_README.md --cache-refresh -o json
+```
+
 ## Testing
 
 Run the unit tests using pytest:

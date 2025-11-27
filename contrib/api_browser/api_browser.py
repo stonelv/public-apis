@@ -151,7 +151,7 @@ def print_table(apis: List[Dict[str, Any]]) -> None:
 
 def print_json(apis: List[Dict[str, Any]]) -> None:
     """Print APIs in JSON format"""
-    print(json.dumps(apis, indent=2, ensure_ascii=False))
+    print(json.dumps(apis, indent=2, ensure_ascii=False), end='')
 
 
 def main() -> None:
