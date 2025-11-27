@@ -1,0 +1,3 @@
+# API Browser Requirements
+# This package currently has no third-party dependencies
+# All required modules are part of the Python standard library
