@@ -29,7 +29,9 @@ def filter_apis(apis: List[Dict], query: str = None, category: str = None) -> Li
         query_lower = query.lower()
         filtered = [
             api for api in filtered 
-            if query_lower in api['name'].lower() or query_lower in api['description'].lower()
+            if query_lower in api['name'].lower() or 
+               query_lower in api['description'].lower() or
+               query_lower in api['auth'].lower()
         ]
     
     return filtered

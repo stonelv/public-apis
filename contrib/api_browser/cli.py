@@ -7,11 +7,18 @@ This tool allows users to browse and filter the public APIs list from the reposi
 
 import argparse
 import json
+import os
 from typing import List, Dict
 
-import parser
-import filter
-import cache
+# Use relative imports first, fall back to absolute imports for compatibility
+try:
+    from . import parser as apiparser
+    from . import filter as apifilter
+    from . import cache as apicache
+except ImportError:
+    import parser as apiparser
+    import filter as apifilter
+    import cache as apicache
 
 def main():
     """Main entry point for the API Browser CLI tool."""
@@ -19,12 +26,12 @@ def main():
     args = parse_args()
     
     # Initialize cache
-    cache_manager = cache.CacheManager()
+    cache_manager = apicache.CacheManager()
     
     # Load APIs data
     if args.cache_refresh or not cache_manager.is_valid():
-        # Parse from README.md if cache is invalid or refresh is requested
-        apis = parser.parse_apis_from_readme("../../README.md")
+        # Parse from specified source file if cache is invalid or refresh is requested
+        apis = apiparser.parse_apis_from_readme(args.source_file)
         # Save to cache
         cache_manager.save(apis)
     else:
@@ -32,49 +39,67 @@ def main():
         apis = cache_manager.load()
     
     # Filter APIs
-    filtered_apis = filter.filter_apis(apis, args.query, args.category)
+    filtered_apis = apifilter.filter_apis(apis, args.query, args.category)
+    
+    # Apply limit if specified
+    if args.limit is not None and args.limit > 0:
+        filtered_apis = filtered_apis[:args.limit]
     
     # Output results
     output_results(filtered_apis, args.output)
 
 def parse_args() -> argparse.Namespace:
     """Parse command line arguments."""
-    parser = argparse.ArgumentParser(description="Browse and filter public APIs")
+    arg_parser = argparse.ArgumentParser(description="Browse and filter public APIs")
+    
+    # Source file option
+    default_readme = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../README.md"))
+    arg_parser.add_argument(
+        "--source-file", 
+        type=str, 
+        default=default_readme, 
+        help=f"Path to the README.md file to parse (default: {default_readme})"
+    )
     
     # Filter options
-    parser.add_argument(
+    arg_parser.add_argument(
         "-q", "--query", 
         type=str, 
         help="Filter APIs by keyword in name or description"
     )
-    parser.add_argument(
+    arg_parser.add_argument(
         "-c", "--category", 
         type=str, 
         help="Filter APIs by category"
     )
     
     # Output options
-    parser.add_argument(
+    arg_parser.add_argument(
         "-o", "--output", 
         type=str, 
         choices=["json", "table"], 
         default="table", 
         help="Output format (default: table)"
     )
+    arg_parser.add_argument(
+        "-n", "--limit", 
+        type=int, 
+        help="Limit the number of results to output"
+    )
     
     # Cache options
-    parser.add_argument(
+    arg_parser.add_argument(
         "--cache-refresh", 
         action="store_true", 
         help="Force refresh the local cache"
     )
     
-    return parser.parse_args()
+    return arg_parser.parse_args()
 
 def output_results(apis: List[Dict], format: str) -> None:
     """Output the filtered APIs in the specified format."""
     if format == "json":
-        print(json.dumps(apis, indent=2))
+        print(json.dumps(apis, indent=2, ensure_ascii=False))
     else:
         # Output as table
         print("{:<50} {:<100} {:<20} {:<10} {:<10}".format(
