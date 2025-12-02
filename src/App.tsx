@@ -38,15 +38,15 @@ function App() {
   // 搜索功能
   const filteredApis = apis.filter((api) =>
     api.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    api.description.toLowerCase().includes(searchTerm.toLowerCase())
+    (api.description || '').toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   // 切换收藏状态
   const toggleFavorite = (api: Api) => {
     setFavorites((prevFavorites) => {
-      const isFavorite = prevFavorites.some((fav) => fav.name === api.name);
+      const isFavorite = prevFavorites.some((fav) => fav.link === api.link);
       if (isFavorite) {
-        return prevFavorites.filter((fav) => fav.name !== api.name);
+        return prevFavorites.filter((fav) => fav.link !== api.link);
       } else {
         return [...prevFavorites, api];
       }
@@ -55,7 +55,7 @@ function App() {
 
   // 检查是否为收藏
   const isFavorite = (api: Api) => {
-    return favorites.some((fav) => fav.name === api.name);
+    return favorites.some((fav) => fav.link === api.link);
   };
 
   return (
@@ -73,7 +73,7 @@ function App() {
       <main className="App-main">
         <div className="apis-container">
           {filteredApis.map((api) => (
-            <div key={api.name} className="api-card">
+            <div key={api.link} className="api-card">
               <div className="api-header">
                 <h2 className="api-name">{api.name}</h2>
                 <button
