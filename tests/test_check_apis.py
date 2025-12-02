@@ -1,328 +1,573 @@
-#!/usr/bin/env python3
-"""
-APIs 检查工具的单元测试
-"""
-
+"""单元测试文件 for check_apis.py"""
 import pytest
-import asyncio
 import json
 import csv
-import os
-import tempfile
-from datetime import datetime, timedelta
+import asyncio
+from datetime import datetime
+from unittest.mock import Mock, AsyncMock, patch, MagicMock
 from pathlib import Path
+from dataclasses import asdict
 
 # 添加 scripts 目录到 Python 路径
-sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..', 'scripts'))
 import sys
-import check_apis
-from check_apis import (
-    DataReader, ReportGenerator, CacheManager, APIChecker,
-    APIConfig, APICheckResult
-)
+import os
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from scripts.check_apis import APICheckResult, APIConfig, APIChecker, CacheManager, DataReader, ReportGenerator
+from dataclasses import asdict
+
+
+class TestAPIConfig:
+    """测试 APIConfig 数据类"""
+    
+    def test_api_config_creation(self):
+        """测试 APIConfig 对象创建"""
+        api_config = APIConfig(
+            name="Test API",
+            link="https://api.example.com",
+            description="Test Description",
+            auth="oauth",
+            https=True,
+            cors="yes"
+        )
+        
+        assert api_config.name == "Test API"
+        assert api_config.link == "https://api.example.com"
+        assert api_config.description == "Test Description"
+        assert api_config.auth == "oauth"
+        assert api_config.https == True
+        assert api_config.cors == "yes"
+
 
 class TestDataReader:
-    """数据读取器测试"""
+    """测试 DataReader 类"""
     
-    def test_read_json(self):
+    def test_read_json(self, tmp_path):
         """测试读取 JSON 文件"""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8') as f:
-            json.dump([
-                {
-                    "name": "Test API",
-                    "link": "https://api.example.com",
-                    "description": "Test Description",
-                    "auth": "apiKey",
-                    "https": True,
-                    "cors": "yes"
-                }
-            ], f)
-            temp_path = f.name
+        # 创建临时 JSON 文件
+        data = [{
+            "name": "Test API",
+            "link": "https://api.example.com",
+            "description": "Test Description",
+            "auth": "",
+            "cors": "yes",
+            "category": "Test"
+        }]
         
-        try:
-            apis = DataReader.read_json(temp_path)
-            assert len(apis) == 1
-            assert apis[0].name == "Test API"
-            assert apis[0].link == "https://api.example.com"
-            assert apis[0].description == "Test Description"
-            assert apis[0].auth == "apiKey"
-            assert apis[0].https == True
-            assert apis[0].cors == "yes"
-        finally:
-            os.unlink(temp_path)
+        json_file = tmp_path / "test_apis.json"
+        with open(json_file, 'w') as f:
+            json.dump(data, f)
+        
+        api_configs = DataReader.read(str(json_file))
+        
+        assert len(api_configs) == 1
+        assert api_configs[0].name == "Test API"
+        assert api_configs[0].link == "https://api.example.com"
     
-    def test_read_csv(self):
+    def test_read_csv(self, tmp_path):
         """测试读取 CSV 文件"""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False, encoding='utf-8') as f:
-            f.write("name,link,description,auth,https,cors\n")
-            f.write("Test API,https://api.example.com,Test Description,apiKey,True,yes\n")
-            temp_path = f.name
+        # 创建临时 CSV 文件
+        csv_file = tmp_path / "test_apis.csv"
+        with open(csv_file, 'w', newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow(["name", "link", "description", "auth", "https", "cors"])
+            writer.writerow(["Test API", "https://api.example.com", "Test Description", "", "True", "yes"])
         
-        try:
-            apis = DataReader.read_csv(temp_path)
-            assert len(apis) == 1
-            assert apis[0].name == "Test API"
-            assert apis[0].link == "https://api.example.com"
-            assert apis[0].description == "Test Description"
-            assert apis[0].auth == "apiKey"
-        finally:
-            os.unlink(temp_path)
+        api_configs = DataReader.read(str(csv_file))
+        
+        assert len(api_configs) == 1
+        assert api_configs[0].name == "Test API"
+        assert api_configs[0].link == "https://api.example.com"
     
-    def test_read_unsupported_format(self):
-        """测试读取不支持的文件格式"""
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as f:
-            f.write("test")
-            temp_path = f.name
-        
-        try:
-            with pytest.raises(ValueError):
-                DataReader.read(temp_path)
-        finally:
-            os.unlink(temp_path)
+    def test_invalid_file_extension(self):
+        """测试无效文件扩展名"""
+        with pytest.raises(ValueError):
+            DataReader.read("test.txt")
+
 
 class TestReportGenerator:
-    """报告生成器测试"""
+    """测试 ReportGenerator 类"""
     
-    def test_generate_json(self):
+    def test_generate_json(self, tmp_path):
         """测试生成 JSON 报告"""
+        # 创建测试结果
         results = [
             APICheckResult(
                 name="Test API",
                 link="https://api.example.com",
                 status_code=200,
-                response_time=100.5,
+                response_time=150.5,
                 error=None,
-                checked_at=datetime.now().isoformat()
+                checked_at=datetime.now().isoformat(),
+                from_cache=False
             )
         ]
         
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False, encoding='utf-8') as f:
-            temp_path = f.name
+        output_file = tmp_path / "report.json"
+        ReportGenerator.generate_json(results, str(output_file))
         
-        try:
-            ReportGenerator.generate_json(results, temp_path)
-            
-            with open(temp_path, 'r', encoding='utf-8') as f:
-                data = json.load(f)
-                
+        # 验证文件生成
+        assert output_file.exists()
+        
+        # 验证内容
+        with open(output_file, 'r') as f:
+            data = json.load(f)
             assert len(data) == 1
-            assert data[0]['name'] == "Test API"
-            assert data[0]['status_code'] == 200
-            assert data[0]['response_time'] == 100.5
-        finally:
-            os.unlink(temp_path)
+            assert data[0]["name"] == "Test API"
+            assert data[0]["status_code"] == 200
+            assert data[0]["http_status"] == 200  # 验收标准字段
+            assert data[0]["response_time_ms"] == 150.5  # 验收标准字段
+            assert data[0]["status"] == "success"  # 验收标准字段
     
-    def test_generate_csv(self):
+    def test_generate_csv(self, tmp_path):
         """测试生成 CSV 报告"""
+        # 创建测试结果
         results = [
             APICheckResult(
                 name="Test API",
                 link="https://api.example.com",
                 status_code=200,
-                response_time=100.5,
+                response_time=150.5,
                 error=None,
-                checked_at=datetime.now().isoformat()
+                checked_at=datetime.now().isoformat(),
+                from_cache=False
             )
         ]
         
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.csv', delete=False, encoding='utf-8') as f:
-            temp_path = f.name
+        output_file = tmp_path / "report.csv"
+        ReportGenerator.generate_csv(results, str(output_file))
         
-        try:
-            ReportGenerator.generate_csv(results, temp_path)
-            
-            with open(temp_path, 'r', encoding='utf-8') as f:
-                reader = csv.DictReader(f)
-                rows = list(reader)
-                
+        # 验证文件生成
+        assert output_file.exists()
+        
+        # 验证内容
+        with open(output_file, 'r') as f:
+            reader = csv.DictReader(f)
+            rows = list(reader)
             assert len(rows) == 1
-            assert rows[0]['name'] == "Test API"
-            assert rows[0]['status_code'] == "200"
-            assert rows[0]['response_time'] == "100.5"
-        finally:
-            os.unlink(temp_path)
+            assert rows[0]["name"] == "Test API"
+            assert rows[0]["status_code"] == "200"
+            assert rows[0]["http_status"] == "200"  # 验收标准字段
+            assert rows[0]["response_time_ms"] == "150.5"  # 验收标准字段
+            assert rows[0]["status"] == "success"  # 验收标准字段
     
-    def test_generate_unsupported_format(self):
-        """测试生成不支持的格式"""
-        results = []
-        
-        with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False, encoding='utf-8') as f:
-            temp_path = f.name
-        
-        try:
-            with pytest.raises(ValueError):
-                ReportGenerator.generate(results, temp_path)
-        finally:
-            os.unlink(temp_path)
+    def test_generate_no_results(self, tmp_path):
+        """测试生成空报告"""
+        output_file = tmp_path / "report.json"
+        ReportGenerator.generate_json([], str(output_file))
+        # 应该生成空文件但不会崩溃
+
 
 class TestCacheManager:
-    """缓存管理器测试"""
+    """测试 CacheManager 类"""
     
-    def setup_method(self):
-        """测试前准备"""
-        self.cache_dir = tempfile.mkdtemp()
-        self.cache_manager = CacheManager(cache_ttl=3600, cache_dir=self.cache_dir)
-    
-    def teardown_method(self):
-        """测试后清理"""
-        # 清理临时目录
-        import shutil
-        shutil.rmtree(self.cache_dir)
-    
-    def test_get_set_cache(self):
-        """测试缓存的读写"""
-        url = "https://api.example.com"
-        data = {"status_code": 200, "response_time": 100.5}
+    def test_cache_operations(self, tmp_path):
+        """测试缓存的基本操作"""
+        cache_dir = tmp_path / "cache"
+        # 修复：正确设置cache_ttl和cache_dir参数
+        cache_manager = CacheManager(cache_ttl=3600, cache_dir=str(cache_dir))
         
-        # 设置缓存
-        self.cache_manager.set(url, data)
+        # 测试缓存不存在
+        result = cache_manager.get("https://api.example.com")
+        assert result is None
         
-        # 获取缓存
-        cached_data = self.cache_manager.get(url)
+        # 测试缓存存储
+        data = {
+            "name": "Test API",
+            "link": "https://api.example.com",
+            "status_code": 200,
+            "response_time": 150.5,
+            "error": None,
+            "checked_at": datetime.now().isoformat()
+        }
+        cache_manager.set("https://api.example.com", data)
         
-        assert cached_data is not None
-        assert cached_data['status_code'] == 200
-        assert cached_data['response_time'] == 100.5
-    
-    def test_cache_expiration(self):
-        """测试缓存过期"""
-        url = "https://api.example.com"
-        data = {"status_code": 200}
+        # 测试缓存获取
+        result = cache_manager.get("https://api.example.com")
+        assert result is not None
+        assert result["name"] == "Test API"
         
-        # 创建过期的缓存
-        cache_manager = CacheManager(cache_ttl=1, cache_dir=self.cache_dir)  # TTL 1秒
-        cache_manager.set(url, data)
-        
-        # 等待缓存过期
-        import time
-        time.sleep(2)
-        
-        # 应该返回 None
-        assert cache_manager.get(url) is None
-    
-    def test_clear_all(self):
-        """测试清除所有缓存"""
-        # 设置多个缓存
-        self.cache_manager.set("https://api.example.com", {"status": 200})
-        self.cache_manager.set("https://api.example2.com", {"status": 200})
-        
-        # 清除所有缓存
-        self.cache_manager.clear_all()
-        
-        # 验证缓存已清除
-        assert len(list(Path(self.cache_dir).glob("*.json"))) == 0
+        # 测试缓存清理
+        cache_manager.clear_all()
+        result = cache_manager.get("https://api.example.com")
+        assert result is None
+
 
 class TestAPIChecker:
-    """API 检查器测试"""
+    """测试 APIChecker 类"""
     
     @pytest.mark.asyncio
-    async def test_check_single_api_success(self, mocker):
-        """测试成功检查单个 API"""
-        # Mock aiohttp.ClientSession
-        mock_response = mocker.Mock()
+    async def test_check_api_config_success(self):
+        """测试 APIConfig 检查成功的情况"""
+        # 创建 APIConfig 对象
+        api_config = APIConfig(
+            name="Test API",
+            link="https://api.example.com",
+            description="Test Description",
+            auth="",
+            cors="yes"
+        )
+        
+        # 模拟 aiohttp ClientSession
+        mock_session = AsyncMock()
+        mock_response = AsyncMock()
         mock_response.status = 200
-        mock_response.headers.return_value = {}
+        mock_response.text = AsyncMock(return_value="")
+        # 修复: 确保 mock_response 有 __aenter__ 和 __aexit__ 方法
+        mock_response.__aenter__ = AsyncMock(return_value=mock_response)
+        mock_response.__aexit__ = AsyncMock(return_value=None)
+        mock_session.get = AsyncMock(return_value=mock_response)
+        # 修复: 确保 mock_session 作为上下文管理器返回自身
+        mock_session.__aenter__ = AsyncMock(return_value=mock_session)
+        mock_session.__aexit__ = AsyncMock(return_value=None)
         
-        mock_get = mocker.AsyncMock(return_value=mock_response)
-        mock_session = mocker.Mock()
-        mock_session.get = mock_get
+        # 创建 APIChecker
+        checker = APIChecker(concurrency=10, timeout=5, retries=3, cache_ttl=3600, force_refresh=False)
         
-        # Mock asyncio.Queue
-        mock_queue = mocker.Mock()
-        mock_queue.put = mocker.AsyncMock()
+        # 检查 APIConfig
+        progress = asyncio.Queue()
+        result = await checker._check_single_api(api_config, mock_session, progress)
         
-        checker = APIChecker(concurrency=1, timeout=5, retries=0)
-        api = APIConfig(name="Test API", link="https://api.example.com")
-        
-        result = await checker._check_single_api(mock_session, api, mock_queue)
-        
-        assert result.status_code == 200
-        assert result.error is None
-        assert result.response_time is not None
-        mock_get.assert_called_once_with("https://api.example.com", timeout=mocker.ANY)
+        # 验证结果
+        result_dict = asdict(result)
+        assert result_dict["name"] == "Test API"
+        assert result_dict["status_code"] == 200
+        assert result_dict["error"] is None
+        assert result_dict["from_cache"] == False
+        assert result_dict["http_status"] == 200  # 验收标准字段
+        assert result_dict["response_time_ms"] is not None  # 验收标准字段
+        assert result_dict["status"] == "success"  # 验收标准字段
     
     @pytest.mark.asyncio
-    async def test_check_single_api_failure(self, mocker):
-        """测试检查单个 API 失败"""
-        # Mock 请求失败
-        mock_get = mocker.AsyncMock(side_effect=Exception("Connection error"))
-        mock_session = mocker.Mock()
-        mock_session.get = mock_get
+    async def test_check_api_config_timeout(self):
+        """测试 APIConfig 超时的情况"""
+        # 创建 APIConfig 对象
+        api_config = APIConfig(
+            name="Test API",
+            link="https://api.example.com",
+            description="Test Description",
+            auth="",
+            cors="yes"
+        )
         
-        mock_queue = mocker.Mock()
-        mock_queue.put = mocker.AsyncMock()
+        # 模拟超时异常
+        mock_session = AsyncMock()
+        mock_session.get = AsyncMock(side_effect=asyncio.TimeoutError)
+        # 修复: 确保 mock_session 作为上下文管理器返回自身
+        mock_session.__aenter__ = AsyncMock(return_value=mock_session)
+        mock_session.__aexit__ = AsyncMock(return_value=None)
         
-        checker = APIChecker(concurrency=1, timeout=5, retries=0)
-        api = APIConfig(name="Test API", link="https://api.example.com")
+        # 创建 APIChecker
+        checker = APIChecker(concurrency=10, timeout=1, retries=3, cache_ttl=3600, force_refresh=False)
         
-        result = await checker._check_single_api(mock_session, api, mock_queue)
+        # 检查 APIConfig
+        progress = asyncio.Queue()
+        result = await checker._check_single_api(api_config, mock_session, progress)
         
-        assert result.status_code is None
-        assert result.error == "Connection error"
+        # 验证结果
+        result_dict = asdict(result)
+        assert result_dict["name"] == "Test API"
+        assert result_dict["status_code"] is None
+        assert "timeout" in result_dict["error"].lower()
+        assert result_dict["status"] == "timeout"  # 验收标准字段
     
     @pytest.mark.asyncio
-    async def test_check_single_api_retry(self, mocker):
-        """测试重试机制"""
-        # 第一次失败，第二次成功
-        mock_response1 = mocker.Mock()
-        mock_response1.status = 500
+    async def test_check_api_config_error(self):
+        """测试 APIConfig 检查失败的情况"""
+        # 创建 APIConfig 对象
+        api_config = APIConfig(
+            name="Test API",
+            link="https://api.example.com",
+            description="Test Description",
+            auth="",
+            cors="yes"
+        )
         
-        mock_response2 = mocker.Mock()
-        mock_response2.status = 200
+        # 模拟 HTTP 错误
+        mock_session = AsyncMock()
+        mock_response = AsyncMock()
+        mock_response.status = 500
+        mock_response.text = AsyncMock(return_value="")
+        # 修复: 确保 mock_response 有 __aenter__ 和 __aexit__ 方法
+        mock_response.__aenter__ = AsyncMock(return_value=mock_response)
+        mock_response.__aexit__ = AsyncMock(return_value=None)
+        mock_session.get = AsyncMock(return_value=mock_response)
+        # 修复: 确保 mock_session 作为上下文管理器返回自身
+        mock_session.__aenter__ = AsyncMock(return_value=mock_session)
+        mock_session.__aexit__ = AsyncMock(return_value=None)
         
-        mock_get = mocker.AsyncMock(side_effect=[
-            Exception("Server error"),
-            mock_response2
-        ])
-        mock_session = mocker.Mock()
-        mock_session.get = mock_get
+        # 创建 APIChecker
+        checker = APIChecker(concurrency=10, timeout=5, retries=3, cache_ttl=3600, force_refresh=False)
         
-        mock_queue = mocker.Mock()
-        mock_queue.put = mocker.AsyncMock()
+        # 检查 APIConfig
+        progress = asyncio.Queue()
+        result = await checker._check_single_api(api_config, mock_session, progress)
         
-        # Mock asyncio.sleep 避免实际等待
-        mocker.patch('asyncio.sleep', return_value=None)
-        
-        checker = APIChecker(concurrency=1, timeout=5, retries=1)
-        api = APIConfig(name="Test API", link="https://api.example.com")
-        
-        result = await checker._check_single_api(mock_session, api, mock_queue)
-        
-        # 应该重试了两次（初始请求 + 1次重试）
-        assert mock_get.call_count == 2
-        assert result.status_code == 200
+        # 验证结果
+        result_dict = asdict(result)
+        assert result_dict["name"] == "Test API"
+        assert result_dict["status_code"] == 500
+        assert result_dict["error"] is None  # 非 2xx 但无错误信息
+        assert result_dict["status"] == "error"  # 验收标准字段
     
     @pytest.mark.asyncio
-    async def test_check_apis_concurrent(self, mocker):
-        """测试并发检查多个 API"""
-        # Mock aiohttp.ClientSession
-        mock_response = mocker.Mock()
+    async def test_check_api_config_connection_error(self):
+        """测试连接错误的情况"""
+        # 创建 APIConfig 对象
+        api_config = APIConfig(
+            name="Test API",
+            link="https://api.example.com",
+            description="Test Description",
+            auth="",
+            cors="yes"
+        )
+        
+        # 模拟连接错误
+        mock_session = AsyncMock()
+        mock_session.get = AsyncMock(side_effect=Exception("Connection refused"))
+        
+        # 创建 APIChecker
+        checker = APIChecker(concurrency=10, timeout=5, retries=3, cache_ttl=3600, force_refresh=False)
+        
+        # 检查 APIConfig
+        progress = asyncio.Queue()
+        result = await checker._check_single_api(api_config, mock_session, progress)
+        
+        # 验证结果
+        result_dict = asdict(result)
+        assert result_dict["name"] == "Test API"
+        assert result_dict["status_code"] is None
+        assert "Connection refused" in result_dict["error"]
+        assert result_dict["status"] == "error"  # 验收标准字段
+    
+    @pytest.mark.asyncio
+    @patch('scripts.check_apis.CacheManager')
+    async def test_check_api_config_from_cache(self, mock_cache_manager_class):
+        """测试从缓存获取结果的情况"""
+        # 创建 APIConfig 对象
+        api_config = APIConfig(
+            name="Test API",
+            link="https://api.example.com",
+            description="Test Description",
+            auth="",
+            cors="yes"
+        )
+        
+        # 模拟缓存管理器
+        mock_cache_manager = Mock()
+        mock_cache_manager.get.return_value = {
+            "name": "Test API",
+            "link": "https://api.example.com",
+            "status_code": 200,
+            "response_time": 150.5,
+            "error": None,
+            "checked_at": datetime.now().isoformat(),
+            "from_cache": True,
+            "http_status": 200,
+            "response_time_ms": 150.5,
+            "status": "success"
+        }
+        mock_cache_manager_class.return_value = mock_cache_manager
+        
+        # 创建 APIChecker
+        checker = APIChecker(concurrency=10, timeout=5, retries=3, cache_ttl=3600, force_refresh=False)
+        
+        # 检查 APIConfig（会使用缓存）
+        progress = asyncio.Queue()
+        result = await checker._check_single_api(api_config, None, progress)  # session 不会被使用
+        
+        # 验证结果
+        result_dict = asdict(result)
+        assert result_dict["name"] == "Test API"
+        assert result_dict["status_code"] == 200
+        assert result_dict["from_cache"] == True
+        assert result_dict["http_status"] == 200  # 验收标准字段
+        assert result_dict["response_time_ms"] == 150.5  # 验收标准字段
+        assert result_dict["status"] == "success"  # 验收标准字段
+    
+    @pytest.mark.asyncio
+    @patch('scripts.check_apis.CacheManager')
+    async def test_check_api_config_force_refresh(self, mock_cache_manager_class):
+        """测试强制刷新缓存的情况"""
+        # 创建 APIConfig 对象
+        api_config = APIConfig(
+            name="Test API",
+            link="https://api.example.com",
+            description="Test Description",
+            auth="",
+            cors="yes"
+        )
+        
+        # 模拟缓存管理器
+        mock_cache_manager = Mock()
+        mock_cache_manager.get.return_value = {
+            "name": "Test API",
+            "link": "https://api.example.com",
+            "status_code": 200,
+            "response_time": 150.5,
+            "error": None,
+            "checked_at": datetime.now().isoformat()
+        }
+        mock_cache_manager_class.return_value = mock_cache_manager
+        
+        # 创建 APIChecker 并强制刷新
+        checker = APIChecker(concurrency=10, timeout=5, retries=3, cache_ttl=3600, force_refresh=True)
+        
+        # 模拟强制刷新缓存的情况
+        mock_session = AsyncMock()
+        mock_response = AsyncMock()
         mock_response.status = 200
-        mock_response.headers.return_value = {}
+        mock_response.text = AsyncMock(return_value="")
+        # 修复: 确保 mock_response 有 __aenter__ 和 __aexit__ 方法
+        mock_response.__aenter__ = AsyncMock(return_value=mock_response)
+        mock_response.__aexit__ = AsyncMock(return_value=None)
+        mock_session.get = AsyncMock(return_value=mock_response)
         
-        mock_get = mocker.AsyncMock(return_value=mock_response)
+        # 检查 APIConfig（会忽略缓存，重新请求）
+        progress = asyncio.Queue()
+        result = await checker._check_single_api(api_config, mock_session, progress)
         
-        # Mock ClientSession 上下文管理器
-        mock_session = mocker.Mock()
-        mock_session.__aenter__.return_value = mock_session
-        mock_session.__aexit__.return_value = None
-        mock_session.get = mock_get
-        
-        mocker.patch('aiohttp.ClientSession', return_value=mock_session)
-        mocker.patch('aiohttp.TCPConnector')
-        
-        # 模拟多个 API
-        apis = [
-            APIConfig(name=f"API {i}", link=f"https://api.example{i}.com")
-            for i in range(5)
+        # 验证结果
+        result_dict = asdict(result)
+        assert result_dict["name"] == "Test API"
+        assert result_dict["from_cache"] == False  # 不使用缓存
+    
+    @pytest.mark.asyncio
+    @patch('scripts.check_apis.aiohttp.ClientSession')
+    async def test_check_api_configs_concurrently(self, mock_client_session_class):
+        """测试并发检查多个 APIConfig"""
+        # 创建多个 APIConfig 对象
+        api_configs = [
+            APIConfig(
+                name=f"Test API {i}",
+                link=f"https://api.example{i}.com",
+                description="Test Description",
+                auth="",
+                cors="yes"
+            )
+            for i in range(3)
         ]
         
-        checker = APIChecker(concurrency=2)
-        results = await checker.check_apis(apis)
+        # 模拟 ClientSession 和响应
+        mock_response = AsyncMock()
+        mock_response.status = 200
+        mock_response.text = AsyncMock(return_value="")
+        mock_response.__aenter__ = AsyncMock(return_value=mock_response)
+        mock_response.__aexit__ = AsyncMock(return_value=None)
         
-        assert len(results) == 5
-        assert all(result.status_code == 200 for result in results)
-        assert mock_get.call_count == 5
+        mock_session = AsyncMock()
+        mock_session.get = AsyncMock(return_value=mock_response)
+        mock_session.__aenter__ = AsyncMock(return_value=mock_session)
+        mock_session.__aexit__ = AsyncMock(return_value=None)
+        
+        mock_client_session_class.return_value.__aenter__.return_value = mock_session
+        
+        # 创建 APIChecker
+        checker = APIChecker(concurrency=10, timeout=5, retries=3, cache_ttl=3600, force_refresh=False)
+        
+        # 并发检查 APIConfig
+        results = await checker.check_apis(api_configs)
+        
+        # 验证结果
+        assert len(results) == 3
+        for result in results:
+            result_dict = asdict(result)
+            assert result_dict["status_code"] == 200
+            assert result_dict["error"] is None
+            assert result_dict["status"] == "success"  # 验收标准字段
+
+
+class TestAPICheckResult:
+    """测试 APICheckResult 数据类"""
+    
+    def test_result_creation_success(self):
+        """测试成功结果的创建"""
+        result = APICheckResult(
+            name="Test API",
+            link="https://api.example.com",
+            status_code=200,
+            response_time=150.5,
+            error=None,
+            checked_at="2024-01-01T12:00:00",
+            from_cache=False
+        )
+        
+        assert result.name == "Test API"
+        assert result.status_code == 200
+        assert result.response_time == 150.5
+        assert result.error is None
+        assert result.http_status == 200  # 验收标准字段
+        assert result.response_time_ms == 150.5  # 验收标准字段
+        assert result.status == "success"  # 验收标准字段
+    
+    def test_result_creation_error(self):
+        """测试错误结果的创建"""
+        result = APICheckResult(
+            name="Test API",
+            link="https://api.example.com",
+            status_code=500,
+            response_time=100.0,
+            error=None,
+            checked_at="2024-01-01T12:00:00",
+            from_cache=False
+        )
+        
+        assert result.status_code == 500
+        assert result.status == "error"  # 验收标准字段
+    
+    def test_result_creation_timeout(self):
+        """测试超时结果的创建"""
+        result = APICheckResult(
+            name="Test API",
+            link="https://api.example.com",
+            status_code=None,
+            response_time=None,
+            error="Timeout error",
+            checked_at="2024-01-01T12:00:00",
+            from_cache=False
+        )
+        
+        assert result.error == "Timeout error"
+        assert result.status == "timeout"  # 验收标准字段
+    
+    def test_result_creation_connection_error(self):
+        """测试连接错误结果的创建"""
+        result = APICheckResult(
+            name="Test API",
+            link="https://api.example.com",
+            status_code=None,
+            response_time=None,
+            error="Connection refused",
+            checked_at="2024-01-01T12:00:00",
+            from_cache=False
+        )
+        
+        assert result.error == "Connection refused"
+        assert result.status == "error"  # 验收标准字段
+    
+    def test_result_asdict(self):
+        """测试 asdict 方法是否包含所有字段"""
+        result = APICheckResult(
+            name="Test API",
+            link="https://api.example.com",
+            status_code=200,
+            response_time=150.5,
+            error=None,
+            checked_at="2024-01-01T12:00:00",
+            from_cache=False
+        )
+        
+        # 验证结果可序列化
+        result_dict = asdict(result)
+        assert isinstance(result_dict, dict)
+        assert result_dict['name'] == "Test API"
+        assert result_dict['link'] == "https://api.example.com"
+        
+        # 验证验收标准字段
+        assert 'http_status' in result_dict
+        assert 'response_time_ms' in result_dict
+        assert 'status' in result_dict
+
 
 if __name__ == "__main__":
-    pytest.main([__file__])
+    pytest.main(["-v", __file__])

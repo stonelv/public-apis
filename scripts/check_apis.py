@@ -15,7 +15,7 @@ import logging
 import os
 import hashlib
 from typing import List, Dict, Optional, Union, Any
-from dataclasses import dataclass, asdict
+from dataclasses import dataclass, asdict, field
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -40,6 +40,24 @@ class APICheckResult:
     error: Optional[str]
     checked_at: str  # ISO 格式时间
     from_cache: bool = False
+    
+    # 验收标准字段（同时存在以向后兼容）
+    http_status: Optional[int] = field(init=False)
+    response_time_ms: Optional[float] = field(init=False)
+    status: str = field(init=False)
+    
+    def __post_init__(self):
+        # 设置验收标准字段的值
+        self.http_status = self.status_code
+        self.response_time_ms = self.response_time
+        if self.error and 'timeout' in self.error.lower():
+            self.status = 'timeout'
+        elif self.error:
+            self.status = 'error'
+        elif self.status_code is not None and 200 <= self.status_code < 300:
+            self.status = 'success'
+        else:
+            self.status = 'error'
 
 @dataclass
 class APIConfig:
@@ -196,8 +214,7 @@ class ReportGenerator:
                 logger.warning("没有结果数据可生成报告")
                 return
             
-            fieldnames = [field for field in dir(results[0]) 
-                         if not field.startswith('_') and field != 'asdict']
+            fieldnames = list(asdict(results[0]).keys())
             
             with open(output_path, 'w', encoding='utf-8', newline='') as f:
                 writer = csv.DictWriter(f, fieldnames=fieldnames)
@@ -252,7 +269,8 @@ class APIChecker:
             # 尝试从缓存获取
             cached_result = self.cache_manager.get(api.link)
             if cached_result and not self.force_refresh:
-                result = APICheckResult(**cached_result, from_cache=True)
+                cached_result['from_cache'] = True
+                result = APICheckResult(**cached_result)
                 logger.debug(f"从缓存获取结果: {api.name}")
                 await progress.put(1)
                 return result
@@ -266,8 +284,8 @@ class APIChecker:
                 try:
                     async with session.get(api.link, timeout=self.timeout) as response:
                         status_code = response.status
-                        # 简单读取响应头以确保连接成功
-                        await response.headers()
+                        # 简单读取响应内容以确保连接成功
+                        await response.text()
                         break
                 except Exception as e:
                     error = str(e)

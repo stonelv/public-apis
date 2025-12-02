@@ -95,18 +95,37 @@ API Name,https://api.example.com,API Description,apiKey,True,yes
 
 ## 输出报告格式
 
-### JSON 格式示例
+### 字段映射说明
 
+| 字段名           | 类型      | 描述                     | 验收标准字段映射 |
+|-----------------|-----------|--------------------------|------------------|
+| name            | string    | API 名称                 | -                |
+| link            | string    | API 链接                 | -                |
+| status_code     | int/null  | HTTP 状态码              | http_status      |
+| response_time   | float/null| 响应时间（毫秒）         | response_time_ms |
+| error           | string|null| 错误信息               | -                |
+| checked_at      | string    | 检查时间（ISO 格式）     | checked_at       |
+| from_cache      | bool      | 是否来自缓存             | -                |
+| status          | string    | 检查状态（success/error/timeout） | status |
+| http_status     | int/null  | HTTP 状态码（别名）      | -                |
+| response_time_ms| float/null| 响应时间（毫秒，别名）   | -                |
+
+**注意**：为向后兼容，同时保留旧字段（status_code、response_time）和验收标准字段（http_status、response_time_ms、status）。
+
+### JSON 格式示例
 ```json
 [
   {
-    "name": "API Name",
-    "link": "https://api.example.com",
+    "name": "GitHub API",
+    "link": "https://api.github.com",
     "status_code": 200,
-    "response_time": 123.45,
+    "response_time": 150.5,
     "error": null,
-    "checked_at": "2023-05-20T12:34:56.123456",
-    "from_cache": false
+    "checked_at": "2024-01-01T12:00:00",
+    "from_cache": false,
+    "http_status": 200,
+    "response_time_ms": 150.5,
+    "status": "success"
   }
 ]
 ```
@@ -182,10 +201,10 @@ pytest tests/test_check_apis.py -v
   {
     "name": "GitHub API",
     "link": "https://api.github.com",
-    "description": "GitHub REST API",
+    "description": "GitHub API",
     "auth": "oauth",
-    "https": true,
-    "cors": "yes"
+    "cors": "yes",
+    "category": "Development"
   },
   {
     "name": "JSONPlaceholder",
