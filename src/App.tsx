@@ -34,7 +34,7 @@ function App() {
     const lowerTerm = searchTerm.toLowerCase();
     return (
       api.name.toLowerCase().includes(lowerTerm) ||
-      api.description.toLowerCase().includes(lowerTerm)
+      (api.description || '').toLowerCase().includes(lowerTerm)
     );
   });
 
@@ -57,8 +57,8 @@ function App() {
 
       {filteredApis.length > 0 ? (
         <div className="apis-grid">
-          {filteredApis.map((api, index) => (
-            <div key={`${api.name}-${index}`} className="api-card">
+          {filteredApis.map((api) => (
+            <div key={api.link} className="api-card">
               <div className="api-header">
                 <h3 className="api-name">{api.name}</h3>
                 <button
