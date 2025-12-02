@@ -1,0 +1,184 @@
+{
+  "categories": [
+    {
+      "category": "Animals",
+      "apis": [
+        {
+          "name": "Cat Facts",
+          "description": "Daily cat facts",
+          "link": "https://catfact.ninja/"
+        },
+        {
+          "name": "Dog API",
+          "description": "Random dog images",
+          "link": "https://dog.ceo/dog-api/"
+        },
+        {
+          "name": "Fox API",
+          "description": "Random fox images",
+          "link": "https://randomfox.ca/floof/"
+        },
+        {
+          "name": "Petfinder",
+          "description": "Pet adoption database",
+          "link": "https://www.petfinder.com/developers/"
+        },
+        {
+          "name": "Zoo Animal API",
+          "description": "Zoo animal information",
+          "link": "https://zoo-animal-api.herokuapp.com/"
+        }
+      ]
+    },
+    {
+      "category": "Books",
+      "apis": [
+        {
+          "name": "Open Library",
+          "description": "Book search and information",
+          "link": "https://openlibrary.org/developers/api"
+        },
+        {
+          "name": "Google Books",
+          "description": "Google Books search",
+          "link": "https://developers.google.com/books/"
+        },
+        {
+          "name": "Project Gutenberg",
+          "description": "Free eBooks",
+          "link": "https://www.gutenberg.org/"
+        },
+        {
+          "name": "Books API",
+          "description": "Book information and reviews",
+          "link": "https://www.googleapis.com/books/v1/volumes"
+        },
+        {
+          "name": "ISBNdb",
+          "description": "Book database",
+          "link": "https://isbndb.com/api/v2/docs"
+        }
+      ]
+    },
+    {
+      "category": "Finance",
+      "apis": [
+        {
+          "name": "CoinGecko",
+          "description": "Cryptocurrency prices",
+          "link": "https://www.coingecko.com/api/documentations/v3"
+        },
+        {
+          "name": "Alpha Vantage",
+          "description": "Stock market data",
+          "link": "https://www.alphavantage.co/"
+        },
+        {
+          "name": "Fixer",
+          "description": "Exchange rates",
+          "link": "https://fixer.io/"
+        },
+        {
+          "name": "Currency Layer",
+          "description": "Currency conversion",
+          "link": "https://currencylayer.com/"
+        },
+        {
+          "name": "Financial Modeling Prep",
+          "description": "Financial data",
+          "link": "https://financialmodelingprep.com/developer/docs/"
+        }
+      ]
+    },
+    {
+      "category": "Games",
+      "apis": [
+        {
+          "name": "RAWG",
+          "description": "Video game database",
+          "link": "https://rawg.io/apidocs"
+        },
+        {
+          "name": "IGDB",
+          "description": "Game information",
+          "link": "https://www.igdb.com/api"
+        },
+        {
+          "name": "Steam Web API",
+          "description": "Steam game data",
+          "link": "https://developer.valvesoftware.com/wiki/Steam_Web_API"
+        },
+        {
+          "name": "Twitch API",
+          "description": "Live streaming data",
+          "link": "https://dev.twitch.tv/docs/api/"
+        },
+        {
+          "name": "Board Game Atlas",
+          "description": "Board game information",
+          "link": "https://www.boardgameatlas.com/api/docs"
+        }
+      ]
+    },
+    {
+      "category": "Health",
+      "apis": [
+        {
+          "name": "FDA API",
+          "description": "Food and drug information",
+          "link": "https://open.fda.gov/apis/"
+        },
+        {
+          "name": "MedlinePlus",
+          "description": "Health information",
+          "link": "https://medlineplus.gov/apis.html"
+        },
+        {
+          "name": "OpenFDA",
+          "description": "FDA drug database",
+          "link": "https://open.fda.gov/apis/"
+        },
+        {
+          "name": "Healthline",
+          "description": "Health information",
+          "link": "https://www.healthline.com/"
+        },
+        {
+          "name": "WebMD",
+          "description": "Medical information",
+          "link": "https://www.webmd.com/"
+        }
+      ]
+    },
+    {
+      "category": "News",
+      "apis": [
+        {
+          "name": "NewsAPI",
+          "description": "News articles",
+          "link": "https://newsapi.org/"
+        },
+        {
+          "name": "NYT Article Search",
+          "description": "New York Times articles",
+          "link": "https://developer.nytimes.com/docs/articlesearch-product/1/overview"
+        },
+        {
+          "name": "Guardian API",
+          "description": "The Guardian articles",
+          "link": "https://open-platform.theguardian.com/"
+        },
+        {
+          "name": "News API",
+          "description": "News articles",
+          "link": "https://newsapi.org/"
+        },
+        {
+          "name": "Google News",
+          "description": "Google News feed",
+          "link": "https://news.google.com/"
+        }
+      ]
+    }
+  ]
+}
