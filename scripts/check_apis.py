@@ -34,7 +34,9 @@ logger = logging.getLogger(__name__)
 
 
 class Cache:
-    """本地缓存实现，支持TTL过期"""
+    """进程内内存缓存实现，支持TTL过期
+    注意：缓存仅在当前进程生命周期内有效，进程结束后缓存会被清除
+    """
     def __init__(self, ttl: int = 3600):
         self.ttl = ttl  # 缓存过期时间（秒）
         self.cache: Dict[str, Tuple[Any, float]] = {}
@@ -114,6 +116,10 @@ class APIWriter:
     def write_json(data: List[Dict[str, Any]], file_path: str) -> None:
         """将结果写入JSON文件"""
         try:
+            # 确保目标目录存在
+            output_path = Path(file_path)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            
             with open(file_path, 'w', encoding='utf-8') as f:
                 json.dump(data, f, indent=2, ensure_ascii=False, default=str)
             logger.info(f"检测结果已写入JSON文件: {file_path}")
@@ -129,6 +135,10 @@ class APIWriter:
                 logger.warning("没有数据可写入CSV文件")
                 return
                 
+            # 确保目标目录存在
+            output_path = Path(file_path)
+            output_path.parent.mkdir(parents=True, exist_ok=True)
+            
             # 获取所有字段
             fieldnames = set()
             for item in data:
@@ -182,7 +192,8 @@ class APIChecker:
         """单个API链接检测"""
         result = api_info.copy()
         result.update({
-            'check_time': datetime.now().isoformat(),
+            'checked_at': datetime.now().isoformat(),
+            'check_time': datetime.now().isoformat(),  # 兼容旧字段
             'status': 'pending',
             'response_time_ms': None,
             'error': None
@@ -214,6 +225,7 @@ class APIChecker:
                             result.update({
                                 'status': 'success',
                                 'status_code': response.status,
+                                'http_status': response.status,  # 验收要求字段
                                 'response_time_ms': response_time
                             })
                             break

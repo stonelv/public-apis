@@ -102,9 +102,11 @@ JSONPlaceholder,Fake online REST API,https://jsonplaceholder.typicode.com,Testin
 
 输出报告将包含原始API信息以及以下检测字段：
 
-- `check_time`: 检测时间（ISO格式）
+- `checked_at`: 检测时间（ISO格式，验收文档标准字段）
+- `check_time`: 检测时间（兼容旧字段）
 - `status`: 检测状态（success/error/timeout）
-- `status_code`: HTTP响应状态码（仅success时存在）
+- `http_status`: HTTP响应状态码（验收文档标准字段，仅success时存在）
+- `status_code`: HTTP响应状态码（兼容旧字段，仅success时存在）
 - `response_time_ms`: 响应时间（毫秒）
 - `error`: 错误信息（仅error/timeout时存在）
 
@@ -152,12 +154,14 @@ pytest --cov=check_apis tests/
 
 ## 缓存机制
 
-工具使用本地内存缓存，避免重复请求相同API：
+工具使用**进程内内存缓存**，缓存仅在当前工具运行周期内有效，进程结束后缓存会被清除：
 
-1. 每个API根据`name`和`link`生成唯一哈希作为缓存键
-2. 默认缓存有效期为1小时（3600秒）
-3. 使用`--force`参数可以忽略缓存，强制重新检测
-4. 缓存结果包含完整的检测信息
+1.  每个API根据`name`和`link`生成唯一哈希作为缓存键
+2.  默认缓存有效期为1小时（3600秒）
+3.  使用`--force`参数可以忽略缓存，强制重新检测
+4.  缓存结果包含完整的检测信息
+
+> 注意：重启工具后缓存会完全清空，如需持久化缓存可以自行扩展为文件缓存（如shelve或sqlite）
 
 ## 重试策略
 
