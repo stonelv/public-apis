@@ -1,0 +1,58 @@
+[
+  {
+    "name": "GitHub API",
+    "link": "https://api.github.com",
+    "description": "GitHub REST API",
+    "auth": "oauth",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "JSONPlaceholder",
+    "link": "https://jsonplaceholder.typicode.com",
+    "description": "Fake online REST API for testing",
+    "auth": "no",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "JSONPlaceholder Test Endpoint",
+    "link": "https://jsonplaceholder.typicode.com/posts/1",
+    "description": "Test endpoint that returns a single post",
+    "auth": "no",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "HTTPBin",
+    "link": "https://httpbin.org",
+    "description": "HTTP Request & Response Service",
+    "auth": "no",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "HTTPBin Status 200",
+    "link": "https://httpbin.org/status/200",
+    "description": "Test endpoint that returns HTTP 200",
+    "auth": "no",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "HTTPBin Status 404",
+    "link": "https://httpbin.org/status/404",
+    "description": "Test endpoint that returns HTTP 404",
+    "auth": "no",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "HTTPBin Delay 2",
+    "link": "https://httpbin.org/delay/2",
+    "description": "Test endpoint that delays response by 2 seconds",
+    "auth": "no",
+    "https": true,
+    "cors": "yes"
+  }
+]
