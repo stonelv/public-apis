@@ -1,0 +1,8 @@
+name,link,description,auth,https,cors
+GitHub API,https://api.github.com,GitHub REST API,oauth,True,yes
+JSONPlaceholder,https://jsonplaceholder.typicode.com,Fake online REST API for testing,no,True,yes
+JSONPlaceholder Test Endpoint,https://jsonplaceholder.typicode.com/posts/1,Test endpoint that returns a single post,no,True,yes
+HTTPBin,https://httpbin.org,HTTP Request & Response Service,no,True,yes
+HTTPBin Status 200,https://httpbin.org/status/200,Test endpoint that returns HTTP 200,no,True,yes
+HTTPBin Status 404,https://httpbin.org/status/404,Test endpoint that returns HTTP 404,no,True,yes
+HTTPBin Delay 2,https://httpbin.org/delay/2,Test endpoint that delays response by 2 seconds,no,True,yes
