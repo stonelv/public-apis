@@ -1,0 +1,32 @@
+[
+  {
+    "name": "JSONPlaceholder",
+    "link": "https://jsonplaceholder.typicode.com/posts/1",
+    "category": "Fake Data",
+    "description": "Free fake API for testing and prototyping"
+  },
+  {
+    "name": "GitHub API",
+    "link": "https://api.github.com/users/octocat",
+    "category": "Development",
+    "description": "GitHub REST API"
+  },
+  {
+    "name": "JSONPlaceholder Users",
+    "link": "https://jsonplaceholder.typicode.com/users",
+    "category": "Fake Data",
+    "description": "Free fake API for testing and prototyping"
+  },
+  {
+    "name": "Random User Generator",
+    "link": "https://randomuser.me/api/",
+    "category": "Fake Data",
+    "description": "Generate random user data"
+  },
+  {
+    "name": "JSONPlaceholder Comments",
+    "link": "https://jsonplaceholder.typicode.com/comments",
+    "category": "Fake Data",
+    "description": "Free fake API for testing and prototyping"
+  }
+]
