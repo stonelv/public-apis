@@ -67,18 +67,18 @@ function App() {
 
     const filtered = apis.filter(api => 
       api.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      api.description.toLowerCase().includes(searchTerm.toLowerCase())
+      (api.description || '').toLowerCase().includes(searchTerm.toLowerCase())
     )
     setFilteredApis(filtered)
   }, [searchTerm, apis])
 
   // 切换收藏状态
-  const toggleFavorite = (apiName: string) => {
+  const toggleFavorite = (apiLink: string) => {
     const newFavorites = new Set(favorites)
-    if (newFavorites.has(apiName)) {
-      newFavorites.delete(apiName)
+    if (newFavorites.has(apiLink)) {
+      newFavorites.delete(apiLink)
     } else {
-      newFavorites.add(apiName)
+      newFavorites.add(apiLink)
     }
     setFavorites(newFavorites)
   }
@@ -104,16 +104,16 @@ function App() {
       <main className="main">
         {filteredApis.length > 0 ? (
           <div className="api-list">
-            {filteredApis.map((api, index) => (
-              <div key={index} className="api-card">
+            {filteredApis.map((api) => (
+              <div key={api.link} className="api-card">
                 <div className="api-header">
                   <h3 className="api-name">{api.name}</h3>
                   <button
-                    className={`favorite-button ${favorites.has(api.name) ? 'favorited' : ''}`}
-                    onClick={() => toggleFavorite(api.name)}
-                    title={favorites.has(api.name) ? '取消收藏' : '收藏'}
+                    className={`favorite-button ${favorites.has(api.link) ? 'favorited' : ''}`}
+                    onClick={() => toggleFavorite(api.link)}
+                    title={favorites.has(api.link) ? '取消收藏' : '收藏'}
                   >
-                    {favorites.has(api.name) ? '★' : '☆'}
+                    {favorites.has(api.link) ? '★' : '☆'}
                   </button>
                 </div>
                 <p className="api-description">{api.description}</p>
