@@ -1,0 +1,290 @@
+[
+  {
+    "name": "JSON Placeholder",
+    "description": "A free online REST API that you can use whenever you need some fake data.",
+    "link": "https://jsonplaceholder.typicode.com/",
+    "category": "Fake Data",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "PokéAPI",
+    "description": "RESTful API for Pokémon data",
+    "link": "https://pokeapi.co/",
+    "category": "Games & Comics",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Cat Facts",
+    "description": "Daily cat facts and cat pictures",
+    "link": "https://alexwohlbruck.github.io/cat-facts/",
+    "category": "Animals",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Dog API",
+    "description": "Random dog images and facts",
+    "link": "https://dog.ceo/dog-api/",
+    "category": "Animals",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "GitHub API",
+    "description": "Access GitHub repositories, users, and more",
+    "link": "https://docs.github.com/en/rest",
+    "category": "Development",
+    "auth": "oauth",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Weather API",
+    "description": "Get current and forecast weather data",
+    "link": "https://openweathermap.org/api",
+    "category": "Weather",
+    "auth": "apiKey",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "News API",
+    "description": "Access breaking news headlines and articles",
+    "link": "https://newsapi.org/",
+    "category": "News",
+    "auth": "apiKey",
+    "https": true,
+    "cors": "no"
+  },
+  {
+    "name": "Joke API",
+    "description": "Random jokes across various categories",
+    "link": "https://sv443.net/jokeapi/v2/",
+    "category": "Entertainment",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Rick and Morty API",
+    "description": "API for Rick and Morty characters, episodes and locations",
+    "link": "https://rickandmortyapi.com/",
+    "category": "TV Shows",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Star Wars API",
+    "description": "All the Star Wars data you've ever wanted",
+    "link": "https://swapi.dev/",
+    "category": "Games & Comics",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "REST Countries",
+    "description": "Get information about countries via a RESTful API",
+    "link": "https://restcountries.com/",
+    "category": "Geography",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "JSON Generator",
+    "description": "Generate custom JSON data for testing",
+    "link": "https://www.json-generator.com/",
+    "category": "Development",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Lorem Picsum",
+    "description": "Placeholder images with custom dimensions",
+    "link": "https://picsum.photos/",
+    "category": "Media",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Unsplash",
+    "description": "Free high-resolution photos",
+    "link": "https://unsplash.com/developers",
+    "category": "Media",
+    "auth": "apiKey",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "TMDB API",
+    "description": "The Movie Database API for films and TV shows",
+    "link": "https://www.themoviedb.org/documentation/api",
+    "category": "Movies",
+    "auth": "apiKey",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Open Library",
+    "description": "Free public domain books and catalog data",
+    "link": "https://openlibrary.org/developers/api",
+    "category": "Books",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "NASA API",
+    "description": "NASA space data, imagery, and astronomy information",
+    "link": "https://api.nasa.gov/",
+    "category": "Science & Math",
+    "auth": "apiKey",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "CoinGecko",
+    "description": "Cryptocurrency prices and market data",
+    "link": "https://www.coingecko.com/en/api",
+    "category": "Finance",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "IP Geolocation",
+    "description": "Get geolocation data from IP addresses",
+    "link": "https://ip-api.com/",
+    "category": "Geography",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "URL Shortener",
+    "description": "Simple URL shortening API",
+    "link": "https://cleanuri.com/docs",
+    "category": "Utilities",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "QR Code Generator",
+    "description": "Generate QR codes programmatically",
+    "link": "https://goqr.me/api/",
+    "category": "Utilities",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Random User Generator",
+    "description": "Generate random user profiles for testing",
+    "link": "https://randomuser.me/api/",
+    "category": "Fake Data",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Bored API",
+    "description": "Get random activity suggestions when bored",
+    "link": "https://www.boredapi.com/documentation",
+    "category": "Entertainment",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Foodish API",
+    "description": "Random food images for recipe websites",
+    "link": "https://foodish-api.herokuapp.com/",
+    "category": "Food & Drink",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Cocktail DB",
+    "description": "Cocktail recipes and ingredient data",
+    "link": "https://www.thecocktaildb.com/api.php",
+    "category": "Food & Drink",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Pexels",
+    "description": "Free stock photos and videos API",
+    "link": "https://www.pexels.com/api/",
+    "category": "Media",
+    "auth": "apiKey",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Trivia API",
+    "description": "Free trivia questions across multiple categories",
+    "link": "https://opentdb.com/api_config.php",
+    "category": "Entertainment",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Dictionary API",
+    "description": "English word definitions and synonyms",
+    "link": "https://dictionaryapi.dev/",
+    "category": "Books",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Time Zone API",
+    "description": "Time zone data and conversion services",
+    "link": "https://timezonedb.com/api",
+    "category": "Utilities",
+    "auth": "apiKey",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "Currency Converter",
+    "description": "Real-time currency exchange rates",
+    "link": "https://www.exchangerate-api.com/",
+    "category": "Finance",
+    "auth": "apiKey",
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "AudioBook API",
+    "description": "Free public domain audiobooks",
+    "link": "https://librivox.org/api",
+    "category": "Books",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  },
+  {
+    "name": "SpaceX API",
+    "description": "SpaceX launch data and mission information",
+    "link": "https://github.com/r-spacex/SpaceX-API",
+    "category": "Science & Math",
+    "auth": false,
+    "https": true,
+    "cors": "yes"
+  }
+]
