@@ -1,0 +1,6 @@
+name,link,category,description
+JSONPlaceholder,https://jsonplaceholder.typicode.com/posts/1,Fake Data,Free fake API for testing and prototyping
+GitHub API,https://api.github.com/users/octocat,Development,GitHub REST API
+JSONPlaceholder Users,https://jsonplaceholder.typicode.com/users,Fake Data,Free fake API for testing and prototyping
+Random User Generator,https://randomuser.me/api/,Fake Data,Generate random user data
+JSONPlaceholder Comments,https://jsonplaceholder.typicode.com/comments,Fake Data,Free fake API for testing and prototyping
