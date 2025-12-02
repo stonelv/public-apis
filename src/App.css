@@ -1,0 +1,214 @@
+/* 全局样式重置 */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* 应用容器 */
+.App {
+  min-height: 100vh;
+  background-color: #f5f5f5;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* 头部样式 */
+.App-header {
+  background-color: #282c34;
+  padding: 2rem 1rem;
+  text-align: center;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.App-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* 搜索框样式 */
+.search-input {
+  width: 100%;
+  max-width: 600px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  background-color: #ffffff;
+  color: #333;
+  transition: box-shadow 0.2s ease;
+}
+
+.search-input:focus {
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+}
+
+/* 主内容区域 */
+.App-main {
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* API 容器 */
+.apis-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+/* API 卡片 */
+.api-card {
+  background-color: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.api-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* API 头部 */
+.api-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+/* API 名称 */
+.api-name {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+  flex: 1;
+  margin-right: 0.5rem;
+  line-height: 1.4;
+}
+
+/* 收藏按钮 */
+.favorite-button {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  color: #ccc;
+  transition: color 0.2s ease;
+  flex-shrink: 0;
+}
+
+.favorite-button:hover {
+  color: #ffc107;
+}
+
+.favorite-button.favorited {
+  color: #ffc107;
+}
+
+/* API 描述 */
+.api-description {
+  color: #666;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  flex: 1;
+}
+
+/* API 链接 */
+.api-link {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: #6366f1;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background-color 0.2s ease;
+  text-align: center;
+}
+
+.api-link:hover {
+  background-color: #5558e3;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+  .App-header h1 {
+    font-size: 2rem;
+  }
+
+  .apis-container {
+    grid-template-columns: 1fr;
+  }
+
+  .api-card {
+    padding: 1rem;
+  }
+
+  .api-name {
+    font-size: 1.1rem;
+  }
+
+  .favorite-button {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .App-header {
+    padding: 1.5rem 1rem;
+  }
+
+  .App-header h1 {
+    font-size: 1.75rem;
+  }
+
+  .search-input {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .App-main {
+    padding: 1rem 0.5rem;
+  }
+
+  .apis-container {
+    gap: 1rem;
+  }
+
+  .api-card {
+    padding: 0.75rem;
+  }
+
+  .api-name {
+    font-size: 1rem;
+  }
+
+  .favorite-button {
+    font-size: 1.1rem;
+  }
+
+  .api-description {
+    font-size: 0.9rem;
+  }
+
+  .api-link {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+}

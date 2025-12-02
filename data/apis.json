@@ -1,0 +1,137 @@
+﻿[
+    {
+        "link":  "https://jsonplaceholder.typicode.com",
+        "description":  "Fake online REST API for testing and prototyping",
+        "name":  "JSONPlaceholder"
+    },
+    {
+        "link":  "https://reqres.in",
+        "description":  "A hosted REST-API ready to respond to your AJAX requests",
+        "name":  "ReqRes"
+    },
+    {
+        "link":  "https://pokeapi.co",
+        "description":  "The RESTful Pokémon API",
+        "name":  "PokéAPI"
+    },
+    {
+        "link":  "https://openweathermap.org/api",
+        "description":  "Free weather API and other weather data services",
+        "name":  "OpenWeatherMap"
+    },
+    {
+        "link":  "https://newsapi.org",
+        "description":  "News API is a simple HTTP REST API for searching and retrieving live articles from all over the web",
+        "name":  "NewsAPI"
+    },
+    {
+        "link":  "https://thecatapi.com",
+        "description":  "API for cat pictures and cat facts",
+        "name":  "TheCatAPI"
+    },
+    {
+        "link":  "https://thedogapi.com",
+        "description":  "API for dog pictures and dog facts",
+        "name":  "TheDogAPI"
+    },
+    {
+        "link":  "https://restcountries.com",
+        "description":  "Get information about countries via a RESTful API",
+        "name":  "REST Countries"
+    },
+    {
+        "link":  "https://jokeapi.dev",
+        "description":  "The JokeAPI is a REST API that serves uniformly and well formatted jokes",
+        "name":  "JokeAPI"
+    },
+    {
+        "link":  "https://api.nasa.gov",
+        "description":  "NASA\u0027s API provides access to a wide range of NASA data, including imagery, Mars rover photos, and more",
+        "name":  "NASA API"
+    },
+    {
+        "link":  "https://api.github.com",
+        "description":  "GitHub\u0027s API provides access to all the data on GitHub",
+        "name":  "GitHub API"
+    },
+    {
+        "link":  "https://developer.twitter.com/en/docs",
+        "description":  "Twitter\u0027s API provides access to Twitter data",
+        "name":  "Twitter API"
+    },
+    {
+        "link":  "https://developers.facebook.com",
+        "description":  "Facebook\u0027s API provides access to Facebook data",
+        "name":  "Facebook API"
+    },
+    {
+        "link":  "https://developers.facebook.com/docs/instagram",
+        "description":  "Instagram\u0027s API provides access to Instagram data",
+        "name":  "Instagram API"
+    },
+    {
+        "link":  "https://developers.google.com/youtube",
+        "description":  "YouTube\u0027s API provides access to YouTube data",
+        "name":  "YouTube API"
+    },
+    {
+        "link":  "https://developers.google.com/maps",
+        "description":  "Google Maps\u0027 API provides access to Google Maps data",
+        "name":  "Google Maps API"
+    },
+    {
+        "link":  "https://stripe.com/docs/api",
+        "description":  "Stripe\u0027s API provides access to Stripe\u0027s payment processing platform",
+        "name":  "Stripe API"
+    },
+    {
+        "link":  "https://developer.paypal.com",
+        "description":  "PayPal\u0027s API provides access to PayPal\u0027s payment processing platform",
+        "name":  "PayPal API"
+    },
+    {
+        "link":  "https://www.twilio.com/docs/api",
+        "description":  "Twilio\u0027s API provides access to Twilio\u0027s communication platform",
+        "name":  "Twilio API"
+    },
+    {
+        "link":  "https://sendgrid.com/docs/api-reference",
+        "description":  "SendGrid\u0027s API provides access to SendGrid\u0027s email delivery platform",
+        "name":  "SendGrid API"
+    },
+    {
+        "link":  "https://mailchimp.com/developer/",
+        "description":  "Mailchimp\u0027s API provides access to Mailchimp\u0027s email marketing platform",
+        "name":  "Mailchimp API"
+    },
+    {
+        "link":  "https://api.slack.com",
+        "description":  "Slack\u0027s API provides access to Slack\u0027s team communication platform",
+        "name":  "Slack API"
+    },
+    {
+        "link":  "https://discord.com/developers/docs/intro",
+        "description":  "Discord\u0027s API provides access to Discord\u0027s voice and text communication platform",
+        "name":  "Discord API"
+    },
+    {
+        "link":  "https://www.reddit.com/dev/api/",
+        "description":  "Reddit\u0027s API provides access to Reddit data",
+        "name":  "Reddit API"
+    },
+    {
+        "link":  "https://developer.spotify.com/documentation/web-api/",
+        "description":  "Spotify\u0027s API provides access to Spotify\u0027s music streaming platform",
+        "name":  "Spotify API"
+    },
+    {
+        "link":  "https://developer.apple.com/documentation/applemusicapi",
+        "description":  "Apple Music\u0027s API provides access to Apple Music\u0027s music streaming platform",
+        "name":  "Apple Music API"
+    },
+    {
+        "link":  "https://www.last.fm/api",
+        "description":  "Last.fm\u0027s API provides access to Last.fm\u0027s music data platform",
+        "name":  "Last.fm API"
+    }
+]
