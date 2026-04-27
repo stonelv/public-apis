@@ -1197,7 +1197,7 @@ API | Description | Auth | HTTPS | CORS |
 |:---|:---|:---|:---|:---|
 | [Calmora](https://github.com/ChromaCyan/Calmora-API) | Mental health support platform with AI chatbot, appointment booking and specialist management | `apiKey` | Yes | Unknown |
 | [Gugudata Psychology Questionnaires](https://www.gugudata.com/api/details/psychology-questionnaires) | Psychology questionnaires with automatic scoring and dimension analysis | `apiKey` | Yes | Unknown |
-| [IBM Mental Health](https://developer.ibm.com/apis/catalog/digitalhealth--mental-health/) | Mental health assessment including PHQ-8, PHQ-9 depression surveys and suicidality detection | `apiKey` | Yes | Unknown |
+| [IBM Mental Health](https://developer.ibm.com/apis/catalog/digitalhealth--mental-health/) | Mental health assessment with PHQ-8, PHQ-9 and suicidality detection | `apiKey` | Yes | Unknown |
 | [Metapsy](https://docs.metapsy.org/r-packages/api/) | Meta-analytic data on psychological interventions and treatment research | No | Yes | Unknown |
 | [Sentino](https://sentino.org/api/integrations/scoring-tests/) | Psychological test scoring API for personality assessments like Big Five inventory | `apiKey` | Yes | Unknown |
 
